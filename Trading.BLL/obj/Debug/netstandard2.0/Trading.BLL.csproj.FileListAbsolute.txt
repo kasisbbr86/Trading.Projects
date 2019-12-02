@@ -1,0 +1,8 @@
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.deps.json
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.dll
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.pdb
+E:\Projects\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.AssemblyInfoInputs.cache
+E:\Projects\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.AssemblyInfo.cs
+E:\Projects\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.dll
+E:\Projects\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.pdb
+E:\Projects\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csprojAssemblyReference.cache

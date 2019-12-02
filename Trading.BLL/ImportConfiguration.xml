@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TradeSheet>
+  <Shipping>
+    <S-I-DATE />
+    <S-I-NO />
+    <VENDER />
+    <SOLD-TO-PARTY />
+    <SHIP-TO-PARTY />
+    <B-L-CONSIGNEE />
+    <PORT-OF-DISCHARGE />
+    <FINAL-DESTINATION />
+    <VIA />
+    <TRANSPORTATION />
+    <PORT-OF-LOADING />
+    <TRADE-TERMS />
+    <PAYMENT-TERMS />
+    <L-C-NO />
+    <L-C-ISSUANCE-DATE />
+    <L-C-ISSUING-BANK />
+    <L-C-EXPIRY-DATE />
+    <SHIPMENT-EXPIRY-DATE />
+    <REQUIRED-B-L-DATE />
+    <FREIGHT />
+    <PARTIAL-SHIPMENT />
+    <TRANSSHIPMENT />
+  </Shipping>
+  <DocumentInstructions>
+    <ExitIndexOn>C/O ISSUED BY</ExitIndexOn>
+  </DocumentInstructions>
+  <ShippingModels>
+    <Columns>
+      <PONo Index="0"/>
+      <ModelName Index="2"/>
+      <Version Index="4"/>
+      <Quantity Index="6"/>
+      <BLModelName Index="8"/>
+      <Description Index="11"/>
+      <Remarks Index="14"/>
+    </Columns>
+  </ShippingModels>
+</TradeSheet>
