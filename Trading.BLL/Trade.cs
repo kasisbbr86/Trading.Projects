@@ -99,7 +99,9 @@ namespace Trading.BLL
         public void ProcessSheet(dynamic sheetDetails) 
         {
             UploadTrade uploadTradeDetails = new UploadTrade();
-
+            UploadTradeLog uploadTradeLog = new UploadTradeLog() { ImportDate = DateTime.Now, WorkBookName = sheetDetails.Sheet.SheetName, TradeRequest = string.Empty, ExceptionMessage = string.Empty };
+            DAL.Trade trade = new DAL.Trade();
+            int shippingId = -1;
             try
             {
                 uploadTradeDetails.Shipping = GetShipping(sheetDetails.Sheet, sheetDetails.ShippingDetailsRowIndex, sheetDetails.DocumentInstructionsRowIndex);
@@ -110,13 +112,22 @@ namespace Trading.BLL
                 DataTable documentInstructionsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.DocumentInstructions));
                 DataTable shippingModelsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.ShippingModels));
 
-                DAL.Trade trade = new DAL.Trade();
                 trade.TradeDBConnectionString = this.TradeDBConnectionString;
-                trade.SaveShippingTradeDetails(uploadTradeDetails.Shipping, documentInstructionsTable, shippingModelsTable);
+                shippingId = trade.SaveShippingTradeDetails(uploadTradeDetails.Shipping, documentInstructionsTable, shippingModelsTable);
+                if (shippingId > 0)
+                {
+                    uploadTradeLog.ShippingId = shippingId;
+                    uploadTradeLog.ImportStatus = "IMPORTED";
+                    trade.WriteShippingImportLog(uploadTradeLog);
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                uploadTradeLog.ShippingId = shippingId;
+                uploadTradeLog.ImportStatus = "FAILED";
+                uploadTradeLog.ExceptionMessage = ex.Message;
+                trade.WriteShippingImportLog(uploadTradeLog);
+                throw ex;
             }
         }
 

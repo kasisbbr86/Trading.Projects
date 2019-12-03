@@ -14,9 +14,10 @@ namespace Trading.DAL
         {
         }
 
-        public void SaveShippingTradeDetails(Shipping shipping, DataTable documentInstructionsTable, DataTable shippingModelsTable)
+        public int SaveShippingTradeDetails(Shipping shipping, DataTable documentInstructionsTable, DataTable shippingModelsTable)
         {
             SqlParameter parameter;
+            int shippingId = -1;
             using (SqlConnection connection = new SqlConnection(TradeDBConnectionString))
             {
                 connection.Open();
@@ -42,6 +43,56 @@ namespace Trading.DAL
                 parameter.ParameterName = "@tvpShippingModels";
                 parameter.SqlDbType = SqlDbType.Structured;
                 parameter.Value = shippingModelsTable;
+                cmd.Parameters.Add(parameter);
+
+                shippingId = (int)cmd.ExecuteScalar();
+            }
+            return shippingId;
+        }
+
+        public void WriteShippingImportLog(UploadTradeLog uploadTradeLog)
+        {
+            SqlParameter parameter;
+            using (SqlConnection connection = new SqlConnection(TradeDBConnectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("WriteShippingImportLog", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                parameter = new SqlParameter();
+                parameter.ParameterName = "@ShippingId";
+                parameter.SqlDbType = SqlDbType.Int;
+                parameter.Value = uploadTradeLog.ShippingId;
+                cmd.Parameters.Add(parameter);
+
+                parameter = new SqlParameter();
+                parameter.ParameterName = "@WorkBookName";
+                parameter.SqlDbType = SqlDbType.NVarChar;
+                parameter.Value = uploadTradeLog.WorkBookName;
+                cmd.Parameters.Add(parameter);
+
+                parameter = new SqlParameter();
+                parameter.ParameterName = "@TradeRequest";
+                parameter.SqlDbType = SqlDbType.NVarChar;
+                parameter.Value = uploadTradeLog.TradeRequest;
+                cmd.Parameters.Add(parameter);
+
+                parameter = new SqlParameter();
+                parameter.ParameterName = "@ImportDate";
+                parameter.SqlDbType = SqlDbType.DateTime;
+                parameter.Value = uploadTradeLog.ImportDate;
+                cmd.Parameters.Add(parameter);
+
+                parameter = new SqlParameter();
+                parameter.ParameterName = "@ImportStatus";
+                parameter.SqlDbType = SqlDbType.NVarChar;
+                parameter.Value = uploadTradeLog.ImportStatus;
+                cmd.Parameters.Add(parameter);
+
+                parameter = new SqlParameter();
+                parameter.ParameterName = "@ExceptionMessage";
+                parameter.SqlDbType = SqlDbType.NVarChar;
+                parameter.Value = uploadTradeLog.ExceptionMessage;
                 cmd.Parameters.Add(parameter);
 
                 cmd.ExecuteNonQuery();

@@ -1,4 +1,4 @@
-create PROCEDURE dbo.SaveShippingTradeDetails
+ALTER PROCEDURE dbo.SaveShippingTradeDetails
 (
 	@TradeSheetName NVARCHAR(50),
 	@SIDate NVARCHAR(50),
@@ -11,7 +11,6 @@ create PROCEDURE dbo.SaveShippingTradeDetails
 	@FinalDestination NVARCHAR(50),
 	@Via NVARCHAR(50),
 	@Transportation NVARCHAR(50),
-	@ NVARCHAR(50),
 	@PortOfLoading NVARCHAR(50),
 	@TradeTerms NVARCHAR(50),
 	@PaymentTerms NVARCHAR(50),
@@ -101,12 +100,44 @@ BEGIN
      SELECT @ShippingId,
            PONo,
            ModelName,
-           Version,
+           [Version],
            Quantity,
            BLModelName,
-           Description,
+           [Description],
            Remarks
 		FROM @tvpShippingModels
 
+	SELECT @ShippingId AS ShippingId;
+
 END
+GO
+
+ALTER PROCEDURE WriteShippingImportLog
+(
+@ShippingId INT,
+@WorkBookName nvarchar(250),
+@TradeRequest nvarchar(max),
+@ImportDate datetime,
+@ImportStatus nvarchar(20),
+@ExceptionMessage nvarchar(1000)
+)
+AS 
+BEGIN 
+	SET NOCOUNT ON
+
+	INSERT INTO [dbo].[TradeImportLog]
+           ([ShippingId]
+           ,[WorkBookName]
+           ,[TradeRequest]
+           ,[ImportDate]
+           ,[ImportStatus]
+           ,[ExceptionMessage])
+     VALUES
+           (@ShippingId,
+           @WorkBookName,
+           @TradeRequest,
+           @ImportDate,
+           @ImportStatus,
+           @ExceptionMessage)
+END 
 GO
