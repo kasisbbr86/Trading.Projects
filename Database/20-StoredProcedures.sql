@@ -141,3 +141,56 @@ BEGIN
            @ExceptionMessage)
 END 
 GO
+
+CREATE PROCEDURE GetShippingTradeDetails
+(
+@ShippingId INT
+)
+AS
+BEGIN
+	SET NOCOUNT ON
+
+	SELECT [Id]
+      ,[TradeSheetName]
+      ,[SIDate]
+      ,[SINo]
+      ,[Vender]
+      ,[SoldToParty]
+      ,[ShipToParty]
+      ,[BLConsignee]
+      ,[PortOfDischarge]
+      ,[FinalDestination]
+      ,[Via]
+      ,[Transportation]
+      ,[PortOfLoading]
+      ,[TradeTerms]
+      ,[PaymentTerms]
+      ,[LCNo]
+      ,[LCIssuanceDate]
+      ,[LCIssuingBank]
+      ,[LCExpiryDate]
+      ,[ShipmentExpiryDate]
+      ,[RequiredBLDate]
+      ,[Freight]
+      ,[PartialShipment]
+      ,[TransShipment]
+	FROM [dbo].[Shipping]
+	WHERE [Id] = @ShippingId
+
+	SELECT [ShippingId]
+      ,[Instruction]
+	FROM [dbo].[DocumentInstruction]
+	WHERE [ShippingId] = @ShippingId
+	
+	SELECT [ShippingId]
+      ,[PONo]
+      ,[ModelName]
+      ,[Version]
+      ,[Quantity]
+      ,[BLModelName]
+      ,[Description]
+      ,[Remarks]
+	FROM [dbo].[ShippingModel]
+	WHERE [ShippingId] = @ShippingId
+END
+GO

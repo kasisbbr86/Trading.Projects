@@ -131,6 +131,13 @@ namespace Trading.BLL
             }
         }
 
+        public UploadTrade GetShippingTradeDetails(int shippingId)
+        {
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            return trade.GetShippingTradeDetails(shippingId);
+        }
+
         private Shipping GetShipping(ISheet tradeSheet, int shippingDetailsRowIndex, int nextSectionRowIndex)
         {
             Shipping shippingDetail = new Shipping();

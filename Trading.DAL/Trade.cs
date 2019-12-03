@@ -3,6 +3,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using Trading.DAO;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Trading.DAL
 {
@@ -97,6 +100,53 @@ namespace Trading.DAL
 
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        public UploadTrade GetShippingTradeDetails(int shippingId)
+        {
+            UploadTrade uploadedTrade = new UploadTrade();
+            SqlParameter parameter;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(TradeDBConnectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("GetShippingTradeDetails", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    parameter = new SqlParameter();
+                    parameter.ParameterName = "@ShippingId";
+                    parameter.SqlDbType = SqlDbType.Int;
+                    parameter.Value = shippingId;
+                    cmd.Parameters.Add(parameter);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet tradeAndShippingDetails = new DataSet();
+                    adapter.Fill(tradeAndShippingDetails, "Trade");
+
+                    uploadedTrade.ShippingId = shippingId;
+                    uploadedTrade.Shipping = (from DataRow dr in tradeAndShippingDetails.Tables[0].Rows
+                                              select new Shipping
+                                              {
+                                                  TradeSheetName = dr["TradeSheetName"].ToString()
+                                              }).FirstOrDefault();
+                    uploadedTrade.DocumentInstructions = (from DataRow dr in tradeAndShippingDetails.Tables[1].Rows
+                                                          select new DocumentInstruction
+                                                          {
+                                                              Instruction = dr["Instruction"].ToString()
+                                                          }).ToList();
+                    uploadedTrade.ShippingModels = (from DataRow dr in tradeAndShippingDetails.Tables[2].Rows
+                                                    select new ShippingModel
+                                                    { 
+                                                        PONo = dr["PONo"].ToString()
+                                                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return uploadedTrade;
         }
     }
 }

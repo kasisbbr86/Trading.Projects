@@ -6,6 +6,8 @@ namespace Trading.DAO
 {
     public class UploadTrade
     {
+        public int ShippingId { get; set; }
+
         public Shipping Shipping { get; set; }
 
         public List<DocumentInstruction> DocumentInstructions { get; set; }

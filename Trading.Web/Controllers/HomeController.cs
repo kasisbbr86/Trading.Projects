@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Trading.DAO;
 
 namespace Trading.Web.Controllers
 {
@@ -30,6 +32,10 @@ namespace Trading.Web.Controllers
         public ActionResult Trade()
         {
             ViewBag.Message = "Your Trade page.";
+
+            Trading.BLL.Trade trade = new BLL.Trade();
+            trade.TradeDBConnectionString = ConfigurationManager.ConnectionStrings["TradeConnectionString"].ConnectionString;
+            UploadTrade uploadTrade = trade.GetShippingTradeDetails(1);
 
             return View();
         }
