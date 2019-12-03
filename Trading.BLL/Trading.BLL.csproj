@@ -16,7 +16,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NPOI" Version="2.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Trading.DAL\Trading.DAL.csproj" />
+    <ProjectReference Include="..\Trading.DAO\Trading.DAO.csproj" />
   </ItemGroup>
 
 </Project>

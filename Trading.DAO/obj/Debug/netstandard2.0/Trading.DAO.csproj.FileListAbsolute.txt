@@ -1,0 +1,7 @@
+D:\GitHub\Trading.Projects\Trading.DAO\bin\Debug\netstandard2.0\Trading.DAO.deps.json
+D:\GitHub\Trading.Projects\Trading.DAO\bin\Debug\netstandard2.0\Trading.DAO.dll
+D:\GitHub\Trading.Projects\Trading.DAO\bin\Debug\netstandard2.0\Trading.DAO.pdb
+D:\GitHub\Trading.Projects\Trading.DAO\obj\Debug\netstandard2.0\Trading.DAO.AssemblyInfoInputs.cache
+D:\GitHub\Trading.Projects\Trading.DAO\obj\Debug\netstandard2.0\Trading.DAO.AssemblyInfo.cs
+D:\GitHub\Trading.Projects\Trading.DAO\obj\Debug\netstandard2.0\Trading.DAO.dll
+D:\GitHub\Trading.Projects\Trading.DAO\obj\Debug\netstandard2.0\Trading.DAO.pdb

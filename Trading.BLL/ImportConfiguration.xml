@@ -1,28 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TradeSheet>
   <Shipping>
-    <S-I-DATE />
-    <S-I-NO />
-    <VENDER />
-    <SOLD-TO-PARTY />
-    <SHIP-TO-PARTY />
-    <B-L-CONSIGNEE />
-    <PORT-OF-DISCHARGE />
-    <FINAL-DESTINATION />
-    <VIA />
-    <TRANSPORTATION />
-    <PORT-OF-LOADING />
-    <TRADE-TERMS />
-    <PAYMENT-TERMS />
-    <L-C-NO />
-    <L-C-ISSUANCE-DATE />
-    <L-C-ISSUING-BANK />
-    <L-C-EXPIRY-DATE />
-    <SHIPMENT-EXPIRY-DATE />
-    <REQUIRED-B-L-DATE />
-    <FREIGHT />
-    <PARTIAL-SHIPMENT />
-    <TRANSSHIPMENT />
+    <Properties>
+      <Property RowLabel="S/I DATE" DBColumn="SIDate" />
+      <Property RowLabel="S/I NO" DBColumn="SINo" />
+      <Property RowLabel="VENDER" DBColumn="Vender" />
+      <Property RowLabel="SOLD-TO PARTY" DBColumn="SoldToParty" />
+      <Property RowLabel="SHIP-TO PARTY" DBColumn="ShipToParty" />
+      <Property RowLabel="B/L CONSIGNEE" DBColumn="BLConsignee" />
+      <Property RowLabel="PORT OF DISCHARGE" DBColumn="PortOfDischarge" />
+      <Property RowLabel="FINAL DESTINATION" DBColumn="FinalDestination" />
+      <Property RowLabel="VIA" DBColumn="Via" />
+      <Property RowLabel="TRANSPORTATION" DBColumn="Transportation" />
+      <Property RowLabel="PORT OF LOADING" DBColumn="PortOfLoading" />
+      <Property RowLabel="TRADE TERMS(SC-SMEF)" DBColumn="TradeTerms" />
+      <Property RowLabel="PAYMENT TERMS (SC-SMEF)" DBColumn="PaymentTerms" />
+      <Property RowLabel="L/C NO" DBColumn="LCNo" />
+      <Property RowLabel="L/C ISSUANCE DATE" DBColumn="LCIssuanceDate" />
+      <Property RowLabel="L/C ISSUING BANK" DBColumn="LCIssuingBank" />
+      <Property RowLabel="L/C EXPIRY DATE" DBColumn="LCExpiryDate" />
+      <Property RowLabel="SHIPMENT EXPIRY DATE" DBColumn="ShipmentExpiryDate" />
+      <Property RowLabel="REQUIRED B/L DATE" DBColumn="RequiredBLDate" />
+      <Property RowLabel="FREIGHT" DBColumn="Freight" />
+      <Property RowLabel="PARTIAL SHIPMENT" DBColumn="PartialShipment" />
+      <Property RowLabel="TRANSSHIPMENT" DBColumn="TransShipment" />
+    </Properties>
   </Shipping>
   <DocumentInstructions>
     <ExitIndexOn>C/O ISSUED BY</ExitIndexOn>

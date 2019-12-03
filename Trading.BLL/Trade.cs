@@ -3,10 +3,12 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Dynamic;
-using Trading.BLL.Models;
+using Trading.DAO;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Linq;
+using Newtonsoft.Json;
+using System.Data;
 
 namespace Trading.BLL
 {
@@ -96,11 +98,23 @@ namespace Trading.BLL
         {
             UploadTrade uploadTradeDetails = new UploadTrade();
 
-            uploadTradeDetails.Shipping = GetShipping(sheetDetails.Sheet, sheetDetails.ShippingDetailsRowIndex, sheetDetails.DocumentInstructionsRowIndex);
-            uploadTradeDetails.DocumentInstructions = GetDocumentInstructions(sheetDetails.Sheet, sheetDetails.DocumentInstructionsRowIndex);
-            uploadTradeDetails.ShippingModels = GetShippingModels(sheetDetails.Sheet, sheetDetails.ShippingModelsRowIndex);
-            
-            // save data
+            try
+            {
+                uploadTradeDetails.Shipping = GetShipping(sheetDetails.Sheet, sheetDetails.ShippingDetailsRowIndex, sheetDetails.DocumentInstructionsRowIndex);
+                uploadTradeDetails.Shipping.TradeSheetName = sheetDetails.Sheet.SheetName;
+                uploadTradeDetails.DocumentInstructions = GetDocumentInstructions(sheetDetails.Sheet, sheetDetails.DocumentInstructionsRowIndex);
+                uploadTradeDetails.ShippingModels = GetShippingModels(sheetDetails.Sheet, sheetDetails.ShippingModelsRowIndex);
+
+                DataTable documentInstructionsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.DocumentInstructions));
+                DataTable shippingModelsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.ShippingModels));
+
+                DAL.Trade trade = new DAL.Trade();
+                trade.SaveShippingTradeDetails(uploadTradeDetails.Shipping, documentInstructionsTable, shippingModelsTable);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private Shipping GetShipping(ISheet tradeSheet, int shippingDetailsRowIndex, int nextSectionRowIndex)
@@ -111,18 +125,26 @@ namespace Trading.BLL
             {
                 tradeSheetRow = tradeSheet.GetRow(shippingRowCounter);
                 if (tradeSheetRow == null) continue;
-                string shippingElementKey = tradeSheetRow.Cells[0].ToString().Replace(":", "").Trim() // check the characters in next line
-                                                .Replace("/", "-").Replace(" ", "-").Replace("*", "").Replace(",", "").Trim(); // first cell of each row
-                if (shippingElementKey != string.Empty)
+                try
                 {
-                    bool hasShippingElement = ShippingModelDocument.Root.Descendants("Shipping").Elements(shippingElementKey).Any();
-                    if (hasShippingElement)
+                    string shippingElementKey = tradeSheetRow.Cells[0].ToString().Replace(":", "").Trim(); // first cell of each row
+                    if (shippingElementKey != string.Empty)
                     {
-                        PropertyInfo propertyInfo = shippingDetail.GetType().GetProperty(shippingElementKey.Replace("-", ""));
-                        string propertyValue = tradeSheetRow.Cells[1].ToString(); // to do check
-                        propertyInfo.SetValue(shippingDetail, propertyValue, null);
+                        IEnumerable<XElement> shippingProperty = ShippingModelDocument.Root.Descendants("Shipping").Descendants("Properties")
+                                                    .Elements("Property").Where(x => shippingElementKey.Contains(x.Attribute("RowLabel").Value));
+                        if (shippingProperty.Any())
+                        {
+                            PropertyInfo propertyInfo = shippingDetail.GetType().GetProperty(shippingProperty.First().Attribute("DBColumn").Value);
+                            string propertyValue = tradeSheetRow.Cells[1].ToString(); // to do check
+                            propertyInfo.SetValue(shippingDetail, propertyValue, null);
+                        }
                     }
-                }           
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }   
             }
             return shippingDetail;
         }
@@ -135,9 +157,17 @@ namespace Trading.BLL
             {
                 tradeSheetRow = tradeSheet.GetRow(instructionIndex);
                 if (tradeSheetRow == null) continue;
-                foreach (ICell item in tradeSheetRow.Cells.FindAll(cell => cell.CellType == CellType.String && cell.StringCellValue != string.Empty))
+                try
                 {
-                    documentInstructionList.Add( new DocumentInstruction() { Instruction = item.StringCellValue } );
+                    foreach (ICell item in tradeSheetRow.Cells.FindAll(cell => cell.CellType == CellType.String && cell.StringCellValue != string.Empty))
+                    {
+                        documentInstructionList.Add(new DocumentInstruction() { Instruction = item.StringCellValue });
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
                 }
             }
             return documentInstructionList;
@@ -152,29 +182,37 @@ namespace Trading.BLL
             {
                 tradeSheetRow = tradeSheet.GetRow(rowCounter);
                 if (tradeSheetRow == null) continue;
-                if (headerRowIndex > 0
-                    && tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("TOTAL")).Count == 0)
+                try
                 {
-                    ShippingModel shippingModel = new ShippingModel();
-                    // ToDo: validate, configure indexes
-
-                    IEnumerable<XNode> modelColumns = ShippingModelDocument.Root.Descendants("ShippingModels").Descendants("Columns").DescendantNodes();
-                    foreach (XElement column in modelColumns)
+                    if (headerRowIndex > 0
+                                && tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("TOTAL")).Count == 0)
                     {
-                        PropertyInfo propertyInfo = shippingModel.GetType().GetProperty(column.Name.ToString());
-                        string propertyValue = tradeSheetRow.Cells[Convert.ToInt32(column.Attribute("Index").Value)].ToString();
-                        propertyInfo.SetValue(shippingModel, propertyValue, null);
+                        ShippingModel shippingModel = new ShippingModel();
+                        // ToDo: validate, configure indexes
+
+                        IEnumerable<XNode> modelColumns = ShippingModelDocument.Root.Descendants("ShippingModels").Descendants("Columns").DescendantNodes();
+                        foreach (XElement column in modelColumns)
+                        {
+                            PropertyInfo propertyInfo = shippingModel.GetType().GetProperty(column.Name.ToString());
+                            string propertyValue = tradeSheetRow.Cells[Convert.ToInt32(column.Attribute("Index").Value)].ToString();
+                            propertyInfo.SetValue(shippingModel, propertyValue, null);
+                        }
+                        shippingModelList.Add(shippingModel);
                     }
-                    shippingModelList.Add(shippingModel);
+                    else if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("P/O NO")).Count > 0)
+                    {
+                        headerRowIndex = rowCounter;
+                        //ShippingModelDocument.Root.Descendants("ShippingModels").
+                    }
+                    else if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("TOTAL")).Count > 0)
+                    {
+                        break;
+                    }
                 }
-                else if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("P/O NO")).Count > 0)
+                catch (Exception)
                 {
-                    headerRowIndex = rowCounter;
-                    //ShippingModelDocument.Root.Descendants("ShippingModels").
-                }
-                else if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("TOTAL")).Count > 0)
-                {
-                    break;
+
+                    throw;
                 }
             }
             return shippingModelList;

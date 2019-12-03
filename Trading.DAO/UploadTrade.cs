@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Trading.BLL.Models
+namespace Trading.DAO
 {
-    class UploadTrade
+    public class UploadTrade
     {
         public Shipping Shipping { get; set; }
 
