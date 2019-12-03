@@ -8,12 +8,10 @@ namespace Trading.DAL
 {
     public class Trade
     {
-        private string TradeDBConnectionString { get; set; }
+        public string TradeDBConnectionString { get; set; }
 
         public Trade()
         {
-            // Read from Configuration Manager
-            TradeDBConnectionString = "server=localhost; Database=ShippingTrade; Trusted_Connection=True;";
         }
 
         public void SaveShippingTradeDetails(Shipping shipping, DataTable documentInstructionsTable, DataTable shippingModelsTable)

@@ -14,6 +14,7 @@ namespace Trading.Console
             {
                 using (Trade tradeSheet = new Trade())
                 {
+                    tradeSheet.TradeDBConnectionString = ConfigurationManager.ConnectionStrings["TradeConnectionString"].ConnectionString;
                     var tradeCostsSheet = tradeSheet.LoadSheet(excelFile, 0);
                     if (tradeSheet.ValidateSheet(tradeCostsSheet))
                     {

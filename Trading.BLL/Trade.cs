@@ -24,6 +24,8 @@ namespace Trading.BLL
         private const string ShippingModelsRowPlaceholder = "*****INSTRUCTIONS FOR SHIPPING MODELS*****";
 
         private readonly XDocument ShippingModelDocument;
+        public string TradeDBConnectionString { get; set; }
+
         public Trade()
         {
             ShippingModelDocument = XDocument.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream("Trading.BLL.ImportConfiguration.xml"));
@@ -109,6 +111,7 @@ namespace Trading.BLL
                 DataTable shippingModelsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.ShippingModels));
 
                 DAL.Trade trade = new DAL.Trade();
+                trade.TradeDBConnectionString = this.TradeDBConnectionString;
                 trade.SaveShippingTradeDetails(uploadTradeDetails.Shipping, documentInstructionsTable, shippingModelsTable);
             }
             catch (Exception)
