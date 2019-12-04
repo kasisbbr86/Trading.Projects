@@ -6,11 +6,11 @@ E:\Projects\Trading.Projects\Trading.DAL\obj\Debug\netstandard2.0\Trading.DAL.As
 D:\GitHub\Trading.Projects\Trading.DAL\bin\Debug\netstandard2.0\Trading.DAL.deps.json
 D:\GitHub\Trading.Projects\Trading.DAL\bin\Debug\netstandard2.0\Trading.DAL.dll
 D:\GitHub\Trading.Projects\Trading.DAL\bin\Debug\netstandard2.0\Trading.DAL.pdb
+D:\GitHub\Trading.Projects\Trading.DAL\bin\Debug\netstandard2.0\Trading.DAO.dll
+D:\GitHub\Trading.Projects\Trading.DAL\bin\Debug\netstandard2.0\Trading.DAO.pdb
 D:\GitHub\Trading.Projects\Trading.DAL\obj\Debug\netstandard2.0\Trading.DAL.csprojAssemblyReference.cache
 D:\GitHub\Trading.Projects\Trading.DAL\obj\Debug\netstandard2.0\Trading.DAL.AssemblyInfoInputs.cache
 D:\GitHub\Trading.Projects\Trading.DAL\obj\Debug\netstandard2.0\Trading.DAL.AssemblyInfo.cs
+D:\GitHub\Trading.Projects\Trading.DAL\obj\Debug\netstandard2.0\Trading.DAL.csproj.CopyComplete
 D:\GitHub\Trading.Projects\Trading.DAL\obj\Debug\netstandard2.0\Trading.DAL.dll
 D:\GitHub\Trading.Projects\Trading.DAL\obj\Debug\netstandard2.0\Trading.DAL.pdb
-D:\GitHub\Trading.Projects\Trading.DAL\bin\Debug\netstandard2.0\Trading.DAO.dll
-D:\GitHub\Trading.Projects\Trading.DAL\bin\Debug\netstandard2.0\Trading.DAO.pdb
-D:\GitHub\Trading.Projects\Trading.DAL\obj\Debug\netstandard2.0\Trading.DAL.csproj.CopyComplete

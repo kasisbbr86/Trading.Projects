@@ -128,18 +128,46 @@ namespace Trading.DAL
                     uploadedTrade.Shipping = (from DataRow dr in tradeAndShippingDetails.Tables[0].Rows
                                               select new Shipping
                                               {
-                                                  TradeSheetName = dr["TradeSheetName"].ToString()
+                                                  TradeSheetName = dr["TradeSheetName"]?.ToString(),
+                                                  BLConsignee = dr["BLConsignee"]?.ToString(),
+                                                  FinalDestination = dr["FinalDestination"]?.ToString(),
+                                                  Freight = dr["Freight"]?.ToString(),
+                                                  LCExpiryDate = dr["LCExpiryDate"]?.ToString(),
+                                                  LCIssuanceDate = dr["LCIssuanceDate"]?.ToString(),
+                                                  LCIssuingBank = dr["LCIssuingBank"]?.ToString(),
+                                                  LCNo = dr["LCNo"]?.ToString(),
+                                                  PartialShipment = dr["PartialShipment"]?.ToString(),
+                                                  PaymentTerms = dr["PaymentTerms"]?.ToString(),
+                                                  PortOfDischarge = dr["PortOfDischarge"]?.ToString(),
+                                                  PortOfLoading = dr["PortOfLoading"]?.ToString(),
+                                                  RequiredBLDate = dr["RequiredBLDate"]?.ToString(),
+                                                  ShipmentExpiryDate = dr["ShipmentExpiryDate"]?.ToString(),
+                                                  ShipToParty = dr["ShipToParty"]?.ToString(),
+                                                  SIDate = dr["SIDate"]?.ToString(),
+                                                  SINo = dr["SINo"]?.ToString(),
+                                                  SoldToParty = dr["SoldToParty"]?.ToString(),
+                                                  TradeTerms = dr["TradeTerms"]?.ToString(),
+                                                  Transportation = dr["Transportation"]?.ToString(),
+                                                  TransShipment = dr["TransShipment"]?.ToString(),
+                                                  Vender = dr["Vender"]?.ToString(),
+                                                  Via = dr["Via"]?.ToString()
                                               }).FirstOrDefault();
                     uploadedTrade.DocumentInstructions = (from DataRow dr in tradeAndShippingDetails.Tables[1].Rows
-                                                          select new DocumentInstruction
-                                                          {
-                                                              Instruction = dr["Instruction"].ToString()
-                                                          }).ToList();
+                                                select new DocumentInstruction
+                                                {
+                                                    Instruction = dr["Instruction"]?.ToString()
+                                                }).ToList();
                     uploadedTrade.ShippingModels = (from DataRow dr in tradeAndShippingDetails.Tables[2].Rows
                                                     select new ShippingModel
-                                                    { 
-                                                        PONo = dr["PONo"].ToString()
-                                                    }).ToList();
+                                                { 
+                                                    PONo = dr["PONo"]?.ToString(),
+                                                    BLModelName = dr["BLModelName"]?.ToString(),
+                                                    Description = dr["Description"]?.ToString(),
+                                                    ModelName = dr["ModelName"]?.ToString(),
+                                                    Quantity = dr["Quantity"]?.ToString(),
+                                                    Remarks = dr["Remarks"]?.ToString(),
+                                                    Version = dr["Version"]?.ToString()
+                                                }).ToList();
                 }
             }
             catch (Exception ex)

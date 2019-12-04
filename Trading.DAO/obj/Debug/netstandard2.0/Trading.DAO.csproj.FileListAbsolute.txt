@@ -5,4 +5,3 @@ D:\GitHub\Trading.Projects\Trading.DAO\obj\Debug\netstandard2.0\Trading.DAO.Asse
 D:\GitHub\Trading.Projects\Trading.DAO\obj\Debug\netstandard2.0\Trading.DAO.AssemblyInfo.cs
 D:\GitHub\Trading.Projects\Trading.DAO\obj\Debug\netstandard2.0\Trading.DAO.dll
 D:\GitHub\Trading.Projects\Trading.DAO\obj\Debug\netstandard2.0\Trading.DAO.pdb
-D:\GitHub\Trading.Projects\Trading.DAO\obj\Debug\netstandard2.0\Trading.DAO.csprojAssemblyReference.cache

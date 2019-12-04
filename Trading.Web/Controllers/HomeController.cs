@@ -33,11 +33,26 @@ namespace Trading.Web.Controllers
         {
             ViewBag.Message = "Your Trade page.";
 
+            UploadTrade uploadTrade = new UploadTrade() { 
+                Shipping = new Shipping(),
+                DocumentInstructions = new List<DocumentInstruction>(),
+                ShippingModels = new List<ShippingModel>()
+            };
+
+            return View(uploadTrade);
+        }
+
+        [HttpPost]
+        public ActionResult Trade(UploadTrade uploadTrade)
+        {
+            ViewBag.Message = "Your Trade page.";
+            ModelState.Clear();
+
             Trading.BLL.Trade trade = new BLL.Trade();
             trade.TradeDBConnectionString = ConfigurationManager.ConnectionStrings["TradeConnectionString"].ConnectionString;
-            UploadTrade uploadTrade = trade.GetShippingTradeDetails(1);
+            uploadTrade = trade.GetShippingTradeDetails(uploadTrade.ShippingId);
 
-            return View();
+            return View(uploadTrade);
         }
     }
 }

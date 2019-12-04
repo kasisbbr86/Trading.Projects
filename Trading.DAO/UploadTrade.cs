@@ -10,9 +10,9 @@ namespace Trading.DAO
 
         public Shipping Shipping { get; set; }
 
-        public List<DocumentInstruction> DocumentInstructions { get; set; }
+        public System.Collections.Generic.List<DocumentInstruction> DocumentInstructions { get; set; }
 
-        public List<ShippingModel> ShippingModels { get; set; }
+        public System.Collections.Generic.List<ShippingModel> ShippingModels { get; set; }
     }
     
     public class UploadTradeLog
