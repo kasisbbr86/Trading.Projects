@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -43,15 +44,36 @@ namespace Trading.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Trade(UploadTrade uploadTrade)
+        public ActionResult Trade(UploadTrade uploadTrade, HttpPostedFileBase postedFile, string submitButton)
         {
-            ViewBag.Message = "Your Trade page.";
-            ModelState.Clear();
+            switch (submitButton)
+            {
+                case "Search":
+                    ModelState.Clear();
 
-            Trading.BLL.Trade trade = new BLL.Trade();
-            trade.TradeDBConnectionString = ConfigurationManager.ConnectionStrings["TradeConnectionString"].ConnectionString;
-            uploadTrade = trade.GetShippingTradeDetails(uploadTrade.ShippingId);
+                    Trading.BLL.Trade trade = new BLL.Trade();
+                    trade.TradeDBConnectionString = ConfigurationManager.ConnectionStrings["TradeConnectionString"].ConnectionString;
+                    uploadTrade = trade.GetShippingTradeDetails(uploadTrade.ShippingId);
+                    break;
+                case "Upload":
+                    if(postedFile != null)
+        {
+                        string path = Server.MapPath("~/TradeShippingSheets/");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
 
+                        postedFile.SaveAs(path + Path.GetFileName(postedFile.FileName));
+                        uploadTrade = new UploadTrade()
+                        {
+                            Shipping = new Shipping(),
+                            DocumentInstructions = new List<DocumentInstruction>(),
+                            ShippingModels = new List<ShippingModel>()
+                        };
+                    }
+                    break;
+            }
             return View(uploadTrade);
         }
     }

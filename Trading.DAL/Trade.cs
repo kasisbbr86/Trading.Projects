@@ -49,7 +49,9 @@ namespace Trading.DAL
                 cmd.Parameters.Add(parameter);
 
                 shippingId = (int)cmd.ExecuteScalar();
+                connection.Close();
             }
+            
             return shippingId;
         }
 
@@ -99,6 +101,7 @@ namespace Trading.DAL
                 cmd.Parameters.Add(parameter);
 
                 cmd.ExecuteNonQuery();
+                connection.Close();
             }
         }
 
@@ -168,6 +171,7 @@ namespace Trading.DAL
                                                     Remarks = dr["Remarks"]?.ToString(),
                                                     Version = dr["Version"]?.ToString()
                                                 }).ToList();
+                    connection.Close();
                 }
             }
             catch (Exception ex)
