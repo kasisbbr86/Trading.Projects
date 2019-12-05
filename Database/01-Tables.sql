@@ -79,3 +79,20 @@ CONSTRAINT [PK_ShippingModel] PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
+/****** Object:  Table [dbo].[TradeImportLog]    Script Date: 05-12-2019 11:32:43 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TradeImportLog](
+	[ShippingId] [int] NOT NULL,
+	[WorkBookName] [nvarchar](250) NOT NULL,
+	[TradeRequest] [nvarchar](max) NULL,
+	[ImportDate] [datetime] NULL,
+	[ImportStatus] [nvarchar](20) NULL,
+	[ExceptionMessage] [nvarchar](1000) NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
