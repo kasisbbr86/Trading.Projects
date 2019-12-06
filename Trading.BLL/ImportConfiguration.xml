@@ -30,7 +30,7 @@
     <ExitIndexOn>C/O ISSUED BY</ExitIndexOn>
   </DocumentInstructions>
   <ShippingModels>
-    <Columns>
+    <Columns Count ="17">
       <PONo Index="0"/>
       <ModelName Index="2"/>
       <Version Index="4"/>
@@ -38,6 +38,23 @@
       <BLModelName Index="8"/>
       <Description Index="11"/>
       <Remarks Index="14"/>
+    </Columns>
+    <Columns Count ="7">
+      <PONo Index="0"/>
+      <ModelName Index="1"/>
+      <Version Index="2"/>
+      <Quantity Index="3"/>
+      <BLModelName Index="4"/>
+      <Description Index="5"/>
+      <Remarks Index="6"/>
+    </Columns>
+    <Columns Count ="6">
+      <PONo Index="0"/>
+      <ModelName Index="1"/>
+      <Quantity Index="2"/>
+      <BLModelName Index="3"/>
+      <Description Index="4"/>
+      <Remarks Index="5"/>
     </Columns>
   </ShippingModels>
 </TradeSheet>

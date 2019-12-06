@@ -6,6 +6,8 @@ namespace Trading.DAO
 {
     public class UploadTrade
     {
+        public bool IsSINoAvailable{ get; set; } = true;
+
         public int ShippingId { get; set; }
 
         public Shipping Shipping { get; set; }

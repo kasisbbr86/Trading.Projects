@@ -31,82 +31,86 @@ BEGIN
 	SET NOCOUNT ON
 	DECLARE @ShippingId INT = 0;
 
-	INSERT INTO [dbo].[Shipping]
-           ([TradeSheetName]
-           ,[SIDate]
-           ,[SINo]
-           ,[Vender]
-           ,[SoldToParty]
-           ,[ShipToParty]
-           ,[BLConsignee]
-           ,[PortOfDischarge]
-           ,[FinalDestination]
-           ,[Via]
-           ,[Transportation]
-           ,[PortOfLoading]
-           ,[TradeTerms]
-           ,[PaymentTerms]
-           ,[LCNo]
-           ,[LCIssuanceDate]
-           ,[LCIssuingBank]
-           ,[LCExpiryDate]
-           ,[ShipmentExpiryDate]
-           ,[RequiredBLDate]
-           ,[Freight]
-           ,[PartialShipment]
-           ,[TransShipment])
-     VALUES
-           (@TradeSheetName,
-           @SIDate,
-           @SINo,
-           @Vender,
-           @SoldToParty,
-           @ShipToParty,
-           @BLConsignee,
-           @PortOfDischarge,
-           @FinalDestination,
-           @Via,
-           @Transportation,
-           @PortOfLoading,
-           @TradeTerms,
-           @PaymentTerms,
-           @LCNo,
-           @LCIssuanceDate,
-           @LCIssuingBank,
-           @LCExpiryDate,
-           @ShipmentExpiryDate,
-           @RequiredBLDate,
-           @Freight,
-           @PartialShipment,
-           @TransShipment)
+	SELECT TOP 1 @ShippingId = [Id] FROM Shipping WHERE [SINo] = @SINo ORDER BY [Id] ASC
 
-	SET @ShippingId = @@IDENTITY
+	IF (@ShippingId = 0)
+	BEGIN
+		INSERT INTO [dbo].[Shipping]
+			   ([TradeSheetName]
+			   ,[SIDate]
+			   ,[SINo]
+			   ,[Vender]
+			   ,[SoldToParty]
+			   ,[ShipToParty]
+			   ,[BLConsignee]
+			   ,[PortOfDischarge]
+			   ,[FinalDestination]
+			   ,[Via]
+			   ,[Transportation]
+			   ,[PortOfLoading]
+			   ,[TradeTerms]
+			   ,[PaymentTerms]
+			   ,[LCNo]
+			   ,[LCIssuanceDate]
+			   ,[LCIssuingBank]
+			   ,[LCExpiryDate]
+			   ,[ShipmentExpiryDate]
+			   ,[RequiredBLDate]
+			   ,[Freight]
+			   ,[PartialShipment]
+			   ,[TransShipment])
+		 VALUES
+			   (@TradeSheetName,
+			   @SIDate,
+			   @SINo,
+			   @Vender,
+			   @SoldToParty,
+			   @ShipToParty,
+			   @BLConsignee,
+			   @PortOfDischarge,
+			   @FinalDestination,
+			   @Via,
+			   @Transportation,
+			   @PortOfLoading,
+			   @TradeTerms,
+			   @PaymentTerms,
+			   @LCNo,
+			   @LCIssuanceDate,
+			   @LCIssuingBank,
+			   @LCExpiryDate,
+			   @ShipmentExpiryDate,
+			   @RequiredBLDate,
+			   @Freight,
+			   @PartialShipment,
+			   @TransShipment)
 
-	INSERT INTO [dbo].[DocumentInstruction]
-	([ShippingId], [Instruction])
-	SELECT 
-		@ShippingId, Instruction					
-	FROM @tvpDocumentInstructions
+		SET @ShippingId = @@IDENTITY
 
-	INSERT INTO [dbo].[ShippingModel]
-           ([ShippingId]
-           ,[PONo]
-           ,[ModelName]
-           ,[Version]
-           ,[Quantity]
-           ,[BLModelName]
-           ,[Description]
-           ,[Remarks])
-     SELECT @ShippingId,
-           PONo,
-           ModelName,
-           [Version],
-           Quantity,
-           BLModelName,
-           [Description],
-           Remarks
-		FROM @tvpShippingModels
+		INSERT INTO [dbo].[DocumentInstruction]
+		([ShippingId], [Instruction])
+		SELECT 
+			@ShippingId, Instruction					
+		FROM @tvpDocumentInstructions
 
+		INSERT INTO [dbo].[ShippingModel]
+			   ([ShippingId]
+			   ,[PONo]
+			   ,[ModelName]
+			   ,[Version]
+			   ,[Quantity]
+			   ,[BLModelName]
+			   ,[Description]
+			   ,[Remarks])
+		 SELECT @ShippingId,
+			   PONo,
+			   ModelName,
+			   [Version],
+			   Quantity,
+			   BLModelName,
+			   [Description],
+			   Remarks
+			FROM @tvpShippingModels
+	END
 	SELECT @ShippingId AS ShippingId;
 
 END
@@ -142,13 +146,16 @@ BEGIN
 END 
 GO
 
-CREATE PROCEDURE GetShippingTradeDetails
+ALTER PROCEDURE GetShippingTradeDetails
 (
-@ShippingId INT
+@SINo INT
 )
 AS
 BEGIN
 	SET NOCOUNT ON
+
+	DECLARE @ShippingId INT = 0
+	SELECT TOP 1 @ShippingId = [Id] FROM Shipping WHERE [SINo] = @SINo ORDER BY [Id] ASC
 
 	SELECT [Id]
       ,[TradeSheetName]

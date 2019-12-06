@@ -101,6 +101,7 @@ namespace Trading.BLL
             UploadTrade uploadTradeDetails = new UploadTrade();
             UploadTradeLog uploadTradeLog = new UploadTradeLog() { ImportDate = DateTime.Now, WorkBookName = sheetDetails.Sheet.SheetName, TradeRequest = string.Empty, ExceptionMessage = string.Empty };
             DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
             int shippingId = -1;
             try
             {
@@ -111,8 +112,6 @@ namespace Trading.BLL
 
                 DataTable documentInstructionsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.DocumentInstructions));
                 DataTable shippingModelsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.ShippingModels));
-
-                trade.TradeDBConnectionString = this.TradeDBConnectionString;
                 shippingId = trade.SaveShippingTradeDetails(uploadTradeDetails.Shipping, documentInstructionsTable, shippingModelsTable);
                 if (shippingId > 0)
                 {
@@ -156,8 +155,12 @@ namespace Trading.BLL
                         if (shippingProperty.Any())
                         {
                             PropertyInfo propertyInfo = shippingDetail.GetType().GetProperty(shippingProperty.First().Attribute("DBColumn").Value);
-                            string propertyValue = tradeSheetRow.Cells[1].ToString(); // to do check
-                            propertyInfo.SetValue(shippingDetail, propertyValue, null);
+                            propertyInfo.SetValue(shippingDetail, string.Empty, null);
+                            if (tradeSheetRow.Cells.ElementAtOrDefault(1) != null)
+                            {
+                                string propertyValue = tradeSheetRow.Cells[1].ToString(); // to do check
+                                propertyInfo.SetValue(shippingDetail, propertyValue, null);
+                            }                            
                         }
                     }
                 }
@@ -211,7 +214,8 @@ namespace Trading.BLL
                         ShippingModel shippingModel = new ShippingModel();
                         // ToDo: validate, configure indexes
 
-                        IEnumerable<XNode> modelColumns = ShippingModelDocument.Root.Descendants("ShippingModels").Descendants("Columns").DescendantNodes();
+                        IEnumerable<XNode> modelColumns = ShippingModelDocument.Root.Descendants("ShippingModels").Descendants("Columns")
+                                                .Where(cols => cols.Attribute("Count").Value.ToString() == tradeSheetRow.Cells.Count.ToString()).DescendantNodes();
                         foreach (XElement column in modelColumns)
                         {
                             PropertyInfo propertyInfo = shippingModel.GetType().GetProperty(column.Name.ToString());

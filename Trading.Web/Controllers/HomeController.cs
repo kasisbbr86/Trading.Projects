@@ -54,6 +54,7 @@ namespace Trading.Web.Controllers
                     Trading.BLL.Trade trade = new BLL.Trade();
                     trade.TradeDBConnectionString = ConfigurationManager.ConnectionStrings["TradeConnectionString"].ConnectionString;
                     uploadTrade = trade.GetShippingTradeDetails(uploadTrade.ShippingId);
+                    if (uploadTrade.Shipping.SINo == null || uploadTrade.Shipping.SINo == string.Empty) uploadTrade.IsSINoAvailable = false;
                     break;
                 case "Upload":
                     if(postedFile != null)

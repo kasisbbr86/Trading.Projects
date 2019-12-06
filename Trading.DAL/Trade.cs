@@ -118,7 +118,7 @@ namespace Trading.DAL
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     parameter = new SqlParameter();
-                    parameter.ParameterName = "@ShippingId";
+                    parameter.ParameterName = "@SINo";
                     parameter.SqlDbType = SqlDbType.Int;
                     parameter.Value = shippingId;
                     cmd.Parameters.Add(parameter);
@@ -127,50 +127,67 @@ namespace Trading.DAL
                     DataSet tradeAndShippingDetails = new DataSet();
                     adapter.Fill(tradeAndShippingDetails, "Trade");
 
+                    uploadedTrade = new UploadTrade()
+                    {
+                        Shipping = new Shipping(),
+                        DocumentInstructions = new List<DocumentInstruction>(),
+                        ShippingModels = new List<ShippingModel>()
+                    };
                     uploadedTrade.ShippingId = shippingId;
-                    uploadedTrade.Shipping = (from DataRow dr in tradeAndShippingDetails.Tables[0].Rows
-                                              select new Shipping
-                                              {
-                                                  TradeSheetName = dr["TradeSheetName"]?.ToString(),
-                                                  BLConsignee = dr["BLConsignee"]?.ToString(),
-                                                  FinalDestination = dr["FinalDestination"]?.ToString(),
-                                                  Freight = dr["Freight"]?.ToString(),
-                                                  LCExpiryDate = dr["LCExpiryDate"]?.ToString(),
-                                                  LCIssuanceDate = dr["LCIssuanceDate"]?.ToString(),
-                                                  LCIssuingBank = dr["LCIssuingBank"]?.ToString(),
-                                                  LCNo = dr["LCNo"]?.ToString(),
-                                                  PartialShipment = dr["PartialShipment"]?.ToString(),
-                                                  PaymentTerms = dr["PaymentTerms"]?.ToString(),
-                                                  PortOfDischarge = dr["PortOfDischarge"]?.ToString(),
-                                                  PortOfLoading = dr["PortOfLoading"]?.ToString(),
-                                                  RequiredBLDate = dr["RequiredBLDate"]?.ToString(),
-                                                  ShipmentExpiryDate = dr["ShipmentExpiryDate"]?.ToString(),
-                                                  ShipToParty = dr["ShipToParty"]?.ToString(),
-                                                  SIDate = dr["SIDate"]?.ToString(),
-                                                  SINo = dr["SINo"]?.ToString(),
-                                                  SoldToParty = dr["SoldToParty"]?.ToString(),
-                                                  TradeTerms = dr["TradeTerms"]?.ToString(),
-                                                  Transportation = dr["Transportation"]?.ToString(),
-                                                  TransShipment = dr["TransShipment"]?.ToString(),
-                                                  Vender = dr["Vender"]?.ToString(),
-                                                  Via = dr["Via"]?.ToString()
-                                              }).FirstOrDefault();
-                    uploadedTrade.DocumentInstructions = (from DataRow dr in tradeAndShippingDetails.Tables[1].Rows
-                                                select new DocumentInstruction
-                                                {
-                                                    Instruction = dr["Instruction"]?.ToString()
-                                                }).ToList();
-                    uploadedTrade.ShippingModels = (from DataRow dr in tradeAndShippingDetails.Tables[2].Rows
-                                                    select new ShippingModel
-                                                { 
-                                                    PONo = dr["PONo"]?.ToString(),
-                                                    BLModelName = dr["BLModelName"]?.ToString(),
-                                                    Description = dr["Description"]?.ToString(),
-                                                    ModelName = dr["ModelName"]?.ToString(),
-                                                    Quantity = dr["Quantity"]?.ToString(),
-                                                    Remarks = dr["Remarks"]?.ToString(),
-                                                    Version = dr["Version"]?.ToString()
-                                                }).ToList();
+                    if (tradeAndShippingDetails.Tables[0].Rows.Count > 0)
+                    {
+                        uploadedTrade.Shipping = (from DataRow dr in tradeAndShippingDetails.Tables[0].Rows
+                                                  select new Shipping
+                                                  {
+                                                      TradeSheetName = dr["TradeSheetName"]?.ToString(),
+                                                      BLConsignee = dr["BLConsignee"]?.ToString(),
+                                                      FinalDestination = dr["FinalDestination"]?.ToString(),
+                                                      Freight = dr["Freight"]?.ToString(),
+                                                      LCExpiryDate = dr["LCExpiryDate"]?.ToString(),
+                                                      LCIssuanceDate = dr["LCIssuanceDate"]?.ToString(),
+                                                      LCIssuingBank = dr["LCIssuingBank"]?.ToString(),
+                                                      LCNo = dr["LCNo"]?.ToString(),
+                                                      PartialShipment = dr["PartialShipment"]?.ToString(),
+                                                      PaymentTerms = dr["PaymentTerms"]?.ToString(),
+                                                      PortOfDischarge = dr["PortOfDischarge"]?.ToString(),
+                                                      PortOfLoading = dr["PortOfLoading"]?.ToString(),
+                                                      RequiredBLDate = dr["RequiredBLDate"]?.ToString(),
+                                                      ShipmentExpiryDate = dr["ShipmentExpiryDate"]?.ToString(),
+                                                      ShipToParty = dr["ShipToParty"]?.ToString(),
+                                                      SIDate = dr["SIDate"]?.ToString(),
+                                                      SINo = dr["SINo"]?.ToString(),
+                                                      SoldToParty = dr["SoldToParty"]?.ToString(),
+                                                      TradeTerms = dr["TradeTerms"]?.ToString(),
+                                                      Transportation = dr["Transportation"]?.ToString(),
+                                                      TransShipment = dr["TransShipment"]?.ToString(),
+                                                      Vender = dr["Vender"]?.ToString(),
+                                                      Via = dr["Via"]?.ToString()
+                                                  }).FirstOrDefault();
+                    }
+                    
+                    if (tradeAndShippingDetails.Tables[1].Rows.Count > 0)
+                    {
+                        uploadedTrade.DocumentInstructions = (from DataRow dr in tradeAndShippingDetails.Tables[1].Rows
+                                                              select new DocumentInstruction
+                                                              {
+                                                                  Instruction = dr["Instruction"]?.ToString()
+                                                              }).ToList();
+                    }
+
+                    if (tradeAndShippingDetails.Tables[2].Rows.Count > 0)
+                    {
+                        uploadedTrade.ShippingModels = (from DataRow dr in tradeAndShippingDetails.Tables[2].Rows
+                                                        select new ShippingModel
+                                                        {
+                                                            PONo = dr["PONo"]?.ToString(),
+                                                            BLModelName = dr["BLModelName"]?.ToString(),
+                                                            Description = dr["Description"]?.ToString(),
+                                                            ModelName = dr["ModelName"]?.ToString(),
+                                                            Quantity = dr["Quantity"]?.ToString(),
+                                                            Remarks = dr["Remarks"]?.ToString(),
+                                                            Version = dr["Version"]?.ToString()
+                                                        }).ToList();
+                    }
                     connection.Close();
                 }
             }
