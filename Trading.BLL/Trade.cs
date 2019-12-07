@@ -201,6 +201,7 @@ namespace Trading.BLL
         {
             List<ShippingModel> shippingModelList = new List<ShippingModel>();            
             IRow tradeSheetRow;
+            List<XElement> columnsMetaData = new List<XElement>();
             int headerRowIndex = -1;
             for (int rowCounter = shippingModelsRowIndex + 1; rowCounter <= tradeSheet.LastRowNum; rowCounter++)
             {
@@ -212,22 +213,45 @@ namespace Trading.BLL
                                 && tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("TOTAL")).Count == 0)
                     {
                         ShippingModel shippingModel = new ShippingModel();
-                        // ToDo: validate, configure indexes
-
-                        IEnumerable<XNode> modelColumns = ShippingModelDocument.Root.Descendants("ShippingModels").Descendants("Columns")
-                                                .Where(cols => cols.Attribute("Count").Value.ToString() == tradeSheetRow.Cells.Count.ToString()).DescendantNodes();
-                        foreach (XElement column in modelColumns)
+                        List<XElement> modelColumns = columnsMetaData; // workaround. ToDo: Need to have a column benchmark
+                        try
                         {
-                            PropertyInfo propertyInfo = shippingModel.GetType().GetProperty(column.Name.ToString());
-                            string propertyValue = tradeSheetRow.Cells[Convert.ToInt32(column.Attribute("Index").Value)].ToString();
-                            propertyInfo.SetValue(shippingModel, propertyValue, null);
+                            // [START] workaround. ToDo: Need to have a column benchmark
+                            if (tradeSheetRow.Cells.Count != columnsMetaData.Count && tradeSheetRow.Cells.Count == 6) // version not present in the row.
+                            {
+                                for (int decrementCounterIndex = 3; decrementCounterIndex < columnsMetaData.Count; decrementCounterIndex++)
+                                {
+                                    modelColumns[decrementCounterIndex].Attribute("Index").Value = (decrementCounterIndex - 1).ToString();
+                                }
+                            }
+                            // [END] workaround. ToDo: Need to have a column benchmark
+                            foreach (var modelColumn in modelColumns)
+                            {
+                                if (modelColumn.Attribute("Index").Value != string.Empty)
+                                {
+                                    PropertyInfo propertyInfo = shippingModel.GetType().GetProperty(modelColumn.Attribute("DBColumn").Value.ToString());
+                                    string propertyValue = tradeSheetRow.Cells[Convert.ToInt32(modelColumn.Attribute("Index").Value)].ToString();
+                                    propertyInfo.SetValue(shippingModel, propertyValue, null);
+                                }
+                            }
+                            shippingModelList.Add(shippingModel);
                         }
-                        shippingModelList.Add(shippingModel);
+                        catch (Exception ex)
+                        {
+                            throw;
+                        }
                     }
                     else if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("P/O NO")).Count > 0)
                     {
                         headerRowIndex = rowCounter;
-                        //ShippingModelDocument.Root.Descendants("ShippingModels").
+                        columnsMetaData = ShippingModelDocument.Root.Descendants("ShippingModels").Descendants("Column").ToList();
+                        for (int columnIndex = 0; columnIndex < tradeSheetRow.Cells.Count; columnIndex++)
+                        {
+                            XElement headerColumnElement = columnsMetaData
+                                                                .Where(column => tradeSheetRow.Cells[columnIndex].ToString().Trim().Equals(column.Attribute("ColumnHeader").Value))
+                                                                .FirstOrDefault();
+                            if (headerColumnElement != null) headerColumnElement.Attribute("Index").Value = columnIndex.ToString();
+                        }
                     }
                     else if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("TOTAL")).Count > 0)
                     {
