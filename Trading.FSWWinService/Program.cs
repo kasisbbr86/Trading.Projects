@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net.Config;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
@@ -14,6 +15,8 @@ namespace Trading.FSWWinService
         /// </summary>
         static void Main()
         {
+            XmlConfigurator.Configure();
+
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {

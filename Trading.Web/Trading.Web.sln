@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trading.DAL", "..\Trading.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trading.BLL", "..\Trading.BLL\Trading.BLL.csproj", "{DF005757-3D84-4EDB-A50F-BED449E4FC25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trading.Utilities", "..\Trading.Utilities\Trading.Utilities.csproj", "{3CE79AB1-4BFC-4EE9-86E4-BB6A2DE99B25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DF005757-3D84-4EDB-A50F-BED449E4FC25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF005757-3D84-4EDB-A50F-BED449E4FC25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF005757-3D84-4EDB-A50F-BED449E4FC25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CE79AB1-4BFC-4EE9-86E4-BB6A2DE99B25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CE79AB1-4BFC-4EE9-86E4-BB6A2DE99B25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CE79AB1-4BFC-4EE9-86E4-BB6A2DE99B25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CE79AB1-4BFC-4EE9-86E4-BB6A2DE99B25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

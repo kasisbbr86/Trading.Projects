@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -206,6 +209,10 @@
     <ProjectReference Include="..\Trading.DAO\Trading.DAO.csproj">
       <Project>{809d7562-1659-4577-a888-1e8058b11d0d}</Project>
       <Name>Trading.DAO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Trading.Utilities\Trading.Utilities.csproj">
+      <Project>{3ce79ab1-4bfc-4ee9-86e4-bb6a2de99b25}</Project>
+      <Name>Trading.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

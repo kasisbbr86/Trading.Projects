@@ -12,11 +12,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Trading.BLL;
+using Trading.Utilities;
 
 namespace Trading.FSWWinService
 {
     public partial class TradeSheetProcessingService : ServiceBase
     {
+        private TradeLogger logger = new TradeLogger();
+
         public TradeSheetProcessingService()
         {
             InitializeComponent();
@@ -43,7 +46,7 @@ namespace Trading.FSWWinService
             try
             {
                 tradeSheetSystemWatcher.Path = TradeSheetWatcherPath;
-                Utils.writeLogService("Information", ServiceName + ", Service Started");
+                logger.Info(ServiceName + ", Service Started");
             }
             catch (Exception ex)
             {
@@ -55,7 +58,7 @@ namespace Trading.FSWWinService
         {
             try
             {
-                Utils.writeLogService("Information", ServiceName + ", Service Stopped");
+                logger.Info(ServiceName + ", Service Stopped");
             }
             catch (Exception ex)
             {                
@@ -73,7 +76,7 @@ namespace Trading.FSWWinService
             try
             {
                 Thread.Sleep(2000);
-                using (Trade tradeSheet = new Trade())
+                using (Trading.BLL.Trade tradeSheet = new Trading.BLL.Trade())
                 {
                     tradeSheet.TradeDBConnectionString = ConfigurationManager.ConnectionStrings["TradeConnectionString"].ConnectionString;
                     var tradeCostsSheet = tradeSheet.LoadSheet(Path.Combine(TradeSheetWatcherPath, e.Name), 0);

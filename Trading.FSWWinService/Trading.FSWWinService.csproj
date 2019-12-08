@@ -36,6 +36,9 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -103,6 +106,10 @@
     <ProjectReference Include="..\Trading.DAO\Trading.DAO.csproj">
       <Project>{203c5e04-b2a1-4159-91f0-c5433e8b947d}</Project>
       <Name>Trading.DAO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Trading.Utilities\Trading.Utilities.csproj">
+      <Project>{cc3ae8d1-4e58-41c8-9923-a9f4159311b1}</Project>
+      <Name>Trading.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

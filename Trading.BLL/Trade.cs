@@ -238,7 +238,7 @@ namespace Trading.BLL
                         }
                         catch (Exception ex)
                         {
-                            throw;
+                            throw ex;
                         }
                     }
                     else if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("P/O NO")).Count > 0)
