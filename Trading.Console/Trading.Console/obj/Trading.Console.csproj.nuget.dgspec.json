@@ -103,6 +103,9 @@
             "projectReferences": {
               "D:\\GitHub\\Trading.Projects\\Trading.BLL\\Trading.BLL.csproj": {
                 "projectPath": "D:\\GitHub\\Trading.Projects\\Trading.BLL\\Trading.BLL.csproj"
+              },
+              "D:\\GitHub\\Trading.Projects\\Trading.DAO\\Trading.DAO.csproj": {
+                "projectPath": "D:\\GitHub\\Trading.Projects\\Trading.DAO\\Trading.DAO.csproj"
               }
             }
           }

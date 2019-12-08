@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v3.0": {
       "Trading.Console/1.0.0": {
         "dependencies": {
-          "Trading.BLL": "1.0.0"
+          "Trading.BLL": "1.0.0",
+          "Trading.DAO": "1.0.0"
         },
         "runtime": {
           "Trading.Console.dll": {}

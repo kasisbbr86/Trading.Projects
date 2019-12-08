@@ -5,11 +5,14 @@
 
 @*https://stackoverflow.com/questions/50165910/reference-netstandard-2-0-types-in-asp-net-mvc-5-razor-views-in-net-4-7-1*@
 
-@using (Html.BeginForm("Trade", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Ajax.BeginForm("Trade", "Home", new AjaxOptions { 
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "TradeFormDetails" }))
 {
     @Html.AntiForgeryToken()
     <br style="height:5px;" />
-    <div class="form-horizontal">
+    <div class="form-horizontal" id="TradeFormDetails">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @if (!Model.IsSINoAvailable)
         {

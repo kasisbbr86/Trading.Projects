@@ -992,7 +992,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
-      "Trading.BLL >= 1.0.0"
+      "Trading.BLL >= 1.0.0",
+      "Trading.DAO >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -1023,6 +1024,9 @@
           "projectReferences": {
             "D:\\GitHub\\Trading.Projects\\Trading.BLL\\Trading.BLL.csproj": {
               "projectPath": "D:\\GitHub\\Trading.Projects\\Trading.BLL\\Trading.BLL.csproj"
+            },
+            "D:\\GitHub\\Trading.Projects\\Trading.DAO\\Trading.DAO.csproj": {
+              "projectPath": "D:\\GitHub\\Trading.Projects\\Trading.DAO\\Trading.DAO.csproj"
             }
           }
         }
