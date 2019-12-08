@@ -27,8 +27,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                     <li>@Html.ActionLink("Trade", "Trade", "Home")</li>
                 </ul>
             </div>
@@ -45,5 +45,46 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            $('#uploadButton').click(function () {
+                // Checking whether FormData is available in browser
+                if (window.FormData !== undefined) {
+                    var invalidFileFormat = false;
+                    var fileUpload = $("#postedFile").get(0);
+                    var files = fileUpload.files;
+                    // Create FormData object
+                    var fileData = new FormData();
+                    // Looping over all files and add it to FormData object
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                        invalidFileFormat = true;
+                    }
+                    if (!invalidFileFormat) {
+                        $.ajax({
+                            url: '/Home/Upload',
+                            type: "POST",
+                            contentType: false, // Not to set any content header
+                            processData: false, // Not to process data
+                            data: fileData,
+                            success: function (result, status, xhr) {
+                                alert(result);
+                            },
+                            error: function (xhr, status, error) {
+                                alert(status);
+                            }
+                        });
+                    }
+                    else {
+                        alert("The Trade details can be uploaded only in .xls or .xlsx formats.");
+                    }
+                } else {
+                    alert("FormData is not supported.");
+                }
+            });
+        });
+
+    </script>
 </body>
 </html>

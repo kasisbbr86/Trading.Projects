@@ -4,11 +4,12 @@
 }
 
 @*https://stackoverflow.com/questions/50165910/reference-netstandard-2-0-types-in-asp-net-mvc-5-razor-views-in-net-4-7-1*@
-
-@using (Ajax.BeginForm("Trade", "Home", new AjaxOptions { 
-                HttpMethod = "POST",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "TradeFormDetails" }))
+@using (Ajax.BeginForm("Trade", "Home", new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "TradeFormDetails"
+}))
 {
     @Html.AntiForgeryToken()
     <br style="height:5px;" />
@@ -35,11 +36,10 @@
                        onclick="location.href='@Url.Action("Trade", "Home")'" />
             </div>
             <div class="col-md-4">
-                <span>Select File :&nbsp;&nbsp;&nbsp;</span><input type="file" name="postedFile" style="display: inline;" />
+                <span>Select File :&nbsp;&nbsp;&nbsp;</span><input type="file" name="postedFile" id="postedFile" multiple style="display: inline;" />
             </div>
             <div class="col-md-1">
-                <input type="submit" value="Upload" id="submitButton" name="submitButton" class="btn btn-default"
-                       onclick="location.href='@Url.Action("Trade", "Home")'" />
+                <input type="button" value="Upload" id="uploadButton" name="uploadButton" class="btn btn-default" />
             </div>
         </div>
         <div class="form-group">
