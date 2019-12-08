@@ -3,20 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trading.Console", "Trading.Console\Trading.Console.csproj", "{0B5EB176-4F73-47C9-AEC9-D90853F9A056}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trading.Console", "..\Trading.Console\Trading.Console\Trading.Console.csproj", "{0B5EB176-4F73-47C9-AEC9-D90853F9A056}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trading.BLL", "..\Trading.BLL\Trading.BLL.csproj", "{FA4FB66A-ED25-4154-BD63-7B6F9C491800}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trading.DAL", "..\Trading.DAL\Trading.DAL.csproj", "{012B2A9E-F559-41DF-A665-27CA974B14D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trading.DAO", "..\Trading.DAO\Trading.DAO.csproj", "{9570DB70-AA23-414F-B5AD-F43E476FBA52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trading.DAO", "..\Trading.DAO\Trading.DAO.csproj", "{9570DB70-AA23-414F-B5AD-F43E476FBA52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0B5EB176-4F73-47C9-AEC9-D90853F9A056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0B5EB176-4F73-47C9-AEC9-D90853F9A056}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B5EB176-4F73-47C9-AEC9-D90853F9A056}.Release|Any CPU.ActiveCfg = Release|Any CPU

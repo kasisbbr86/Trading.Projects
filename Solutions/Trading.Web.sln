@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trading.Web", "Trading.Web.csproj", "{C533A493-9369-4643-8D09-34D9D8098ECE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trading.Web", "..\Trading.Web\Trading.Web.csproj", "{C533A493-9369-4643-8D09-34D9D8098ECE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trading.Web.Tests", "..\Trading.Web.Tests\Trading.Web.Tests.csproj", "{C1F660DC-E876-46A0-82E6-757D67707F79}"
 EndProject
