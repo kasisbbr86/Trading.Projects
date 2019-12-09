@@ -35,7 +35,7 @@ namespace Trading.BLL
 
         public ExpandoObject LoadSheet(string sheetFullPath, int sheetIndex) 
         {
-            // http://apache-poi.1045710.n5.nabble.com/How-to-check-for-valid-excel-files-using-POI-without-checking-the-file-extension-td2341055.html
+            // https://stackoverflow.com/questions/5855813/how-to-read-file-using-npoi
             ISheet tradeSheet;
             try
             {
