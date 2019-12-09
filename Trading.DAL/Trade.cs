@@ -6,12 +6,14 @@ using Trading.DAO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Trading.Utilities;
 
 namespace Trading.DAL
 {
     public class Trade
     {
         public string TradeDBConnectionString { get; set; }
+        private readonly TradeLogger _tradeLogger = new TradeLogger();
 
         public Trade()
         {
@@ -21,87 +23,102 @@ namespace Trading.DAL
         {
             SqlParameter parameter;
             int shippingId = -1;
-            using (SqlConnection connection = new SqlConnection(TradeDBConnectionString))
+            try
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("SaveShippingTradeDetails", connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                foreach (var property in shipping.GetType().GetProperties())
+                using (SqlConnection connection = new SqlConnection(TradeDBConnectionString))
                 {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("SaveShippingTradeDetails", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    foreach (var property in shipping.GetType().GetProperties())
+                    {
+                        parameter = new SqlParameter();
+                        parameter.ParameterName = "@" + property.Name;
+                        parameter.SqlDbType = SqlDbType.NVarChar;
+                        parameter.Value = property.GetValue(shipping, null);
+                        cmd.Parameters.Add(parameter);
+                    }
+
                     parameter = new SqlParameter();
-                    parameter.ParameterName = "@" + property.Name;
-                    parameter.SqlDbType = SqlDbType.NVarChar;
-                    parameter.Value = property.GetValue(shipping, null);
+                    parameter.ParameterName = "@tvpDocumentInstructions";
+                    parameter.SqlDbType = SqlDbType.Structured;
+                    parameter.Value = documentInstructionsTable;
                     cmd.Parameters.Add(parameter);
+
+                    parameter = new SqlParameter();
+                    parameter.ParameterName = "@tvpShippingModels";
+                    parameter.SqlDbType = SqlDbType.Structured;
+                    parameter.Value = shippingModelsTable;
+                    cmd.Parameters.Add(parameter);
+
+                    shippingId = (int)cmd.ExecuteScalar();
+                    connection.Close();
                 }
-
-                parameter = new SqlParameter();
-                parameter.ParameterName = "@tvpDocumentInstructions";
-                parameter.SqlDbType = SqlDbType.Structured;
-                parameter.Value = documentInstructionsTable;
-                cmd.Parameters.Add(parameter);
-
-                parameter = new SqlParameter();
-                parameter.ParameterName = "@tvpShippingModels";
-                parameter.SqlDbType = SqlDbType.Structured;
-                parameter.Value = shippingModelsTable;
-                cmd.Parameters.Add(parameter);
-
-                shippingId = (int)cmd.ExecuteScalar();
-                connection.Close();
             }
-            
+            catch (Exception ex)
+            {
+                _tradeLogger.Error("Trading.DAL.Trade.LoadSheet", ex);
+                throw ex;
+            }
             return shippingId;
         }
 
         public void WriteShippingImportLog(UploadTradeLog uploadTradeLog)
         {
             SqlParameter parameter;
-            using (SqlConnection connection = new SqlConnection(TradeDBConnectionString))
+            try
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("WriteShippingImportLog", connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                
-                parameter = new SqlParameter();
-                parameter.ParameterName = "@ShippingId";
-                parameter.SqlDbType = SqlDbType.Int;
-                parameter.Value = uploadTradeLog.ShippingId;
-                cmd.Parameters.Add(parameter);
+                using (SqlConnection connection = new SqlConnection(TradeDBConnectionString))
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("WriteShippingImportLog", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                parameter = new SqlParameter();
-                parameter.ParameterName = "@WorkBookName";
-                parameter.SqlDbType = SqlDbType.NVarChar;
-                parameter.Value = uploadTradeLog.WorkBookName;
-                cmd.Parameters.Add(parameter);
+                    parameter = new SqlParameter();
+                    parameter.ParameterName = "@ShippingId";
+                    parameter.SqlDbType = SqlDbType.Int;
+                    parameter.Value = uploadTradeLog.ShippingId;
+                    cmd.Parameters.Add(parameter);
 
-                parameter = new SqlParameter();
-                parameter.ParameterName = "@TradeRequest";
-                parameter.SqlDbType = SqlDbType.NVarChar;
-                parameter.Value = uploadTradeLog.TradeRequest;
-                cmd.Parameters.Add(parameter);
+                    parameter = new SqlParameter();
+                    parameter.ParameterName = "@WorkBookName";
+                    parameter.SqlDbType = SqlDbType.NVarChar;
+                    parameter.Value = uploadTradeLog.WorkBookName;
+                    cmd.Parameters.Add(parameter);
 
-                parameter = new SqlParameter();
-                parameter.ParameterName = "@ImportDate";
-                parameter.SqlDbType = SqlDbType.DateTime;
-                parameter.Value = uploadTradeLog.ImportDate;
-                cmd.Parameters.Add(parameter);
+                    parameter = new SqlParameter();
+                    parameter.ParameterName = "@TradeRequest";
+                    parameter.SqlDbType = SqlDbType.NVarChar;
+                    parameter.Value = uploadTradeLog.TradeRequest;
+                    cmd.Parameters.Add(parameter);
 
-                parameter = new SqlParameter();
-                parameter.ParameterName = "@ImportStatus";
-                parameter.SqlDbType = SqlDbType.NVarChar;
-                parameter.Value = uploadTradeLog.ImportStatus;
-                cmd.Parameters.Add(parameter);
+                    parameter = new SqlParameter();
+                    parameter.ParameterName = "@ImportDate";
+                    parameter.SqlDbType = SqlDbType.DateTime;
+                    parameter.Value = uploadTradeLog.ImportDate;
+                    cmd.Parameters.Add(parameter);
 
-                parameter = new SqlParameter();
-                parameter.ParameterName = "@ExceptionMessage";
-                parameter.SqlDbType = SqlDbType.NVarChar;
-                parameter.Value = uploadTradeLog.ExceptionMessage;
-                cmd.Parameters.Add(parameter);
+                    parameter = new SqlParameter();
+                    parameter.ParameterName = "@ImportStatus";
+                    parameter.SqlDbType = SqlDbType.NVarChar;
+                    parameter.Value = uploadTradeLog.ImportStatus;
+                    cmd.Parameters.Add(parameter);
 
-                cmd.ExecuteNonQuery();
-                connection.Close();
+                    parameter = new SqlParameter();
+                    parameter.ParameterName = "@ExceptionMessage";
+                    parameter.SqlDbType = SqlDbType.NVarChar;
+                    parameter.Value = uploadTradeLog.ExceptionMessage;
+                    cmd.Parameters.Add(parameter);
+
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                _tradeLogger.Error("Trading.DAL.Trade.LoadSheet", ex);
+                throw ex;
             }
         }
 
@@ -193,6 +210,7 @@ namespace Trading.DAL
             }
             catch (Exception ex)
             {
+                _tradeLogger.Error("Trading.DAL.Trade.LoadSheet", ex);
                 throw ex;
             }
             return uploadedTrade;

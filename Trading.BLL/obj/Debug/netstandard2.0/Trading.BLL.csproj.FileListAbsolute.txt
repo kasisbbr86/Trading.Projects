@@ -19,3 +19,5 @@ D:\GitHub\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.Asse
 D:\GitHub\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csproj.CopyComplete
 D:\GitHub\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.dll
 D:\GitHub\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.pdb
+D:\GitHub\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.dll
+D:\GitHub\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.pdb

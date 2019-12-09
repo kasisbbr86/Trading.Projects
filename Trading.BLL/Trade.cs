@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Data;
+using Trading.Utilities;
 
 namespace Trading.BLL
 {
@@ -23,12 +24,13 @@ namespace Trading.BLL
         private const string DocumentInstructionsRowPlaceholder = "*****INSTRUCTION FOR DOCUMENTS*****";
         private const string ShippingModelsRowPlaceholder = "*****INSTRUCTIONS FOR SHIPPING MODELS*****";
 
-        private readonly XDocument ShippingModelDocument;
+        private readonly XDocument _shippingModelDocument;
+        private readonly TradeLogger _tradeLogger = new TradeLogger();
         public string TradeDBConnectionString { get; set; }
 
         public Trade()
         {
-            ShippingModelDocument = XDocument.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream("Trading.BLL.ImportConfiguration.xml"));
+            _shippingModelDocument = XDocument.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream("Trading.BLL.ImportConfiguration.xml"));
         }
 
         public ExpandoObject LoadSheet(string sheetFullPath, int sheetIndex) 
@@ -44,6 +46,7 @@ namespace Trading.BLL
             }
             catch (Exception ex)
             {
+                _tradeLogger.Error("Trading.BLL.Trade.LoadSheet", ex);
                 throw ex;
             }
 
@@ -78,6 +81,7 @@ namespace Trading.BLL
             }
             catch (Exception ex)
             {
+                _tradeLogger.Error("Trading.BLL.Trade.LoadSheet", ex);
                 throw ex;
             }
             return sheetDetails;
@@ -103,6 +107,7 @@ namespace Trading.BLL
             DAL.Trade trade = new DAL.Trade();
             trade.TradeDBConnectionString = this.TradeDBConnectionString;
             int shippingId = -1;
+            string shippingMissedElements = string.Empty;
             try
             {
                 uploadTradeDetails.Shipping = GetShipping(sheetDetails.Sheet, sheetDetails.ShippingDetailsRowIndex, sheetDetails.DocumentInstructionsRowIndex);
@@ -110,13 +115,27 @@ namespace Trading.BLL
                 uploadTradeDetails.DocumentInstructions = GetDocumentInstructions(sheetDetails.Sheet, sheetDetails.DocumentInstructionsRowIndex);
                 uploadTradeDetails.ShippingModels = GetShippingModels(sheetDetails.Sheet, sheetDetails.ShippingModelsRowIndex);
 
-                DataTable documentInstructionsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.DocumentInstructions));
-                DataTable shippingModelsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.ShippingModels));
-                shippingId = trade.SaveShippingTradeDetails(uploadTradeDetails.Shipping, documentInstructionsTable, shippingModelsTable);
+                if (uploadTradeDetails.Shipping.SINo.Trim() != string.Empty)
+                {
+                    shippingMissedElements = "The SI No is not avaialable. Please include and process again.";
+                }
+                else
+                {
+                    DataTable documentInstructionsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.DocumentInstructions));
+                    DataTable shippingModelsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.ShippingModels));
+                    shippingId = trade.SaveShippingTradeDetails(uploadTradeDetails.Shipping, documentInstructionsTable, shippingModelsTable);
+                }
                 if (shippingId > 0)
                 {
                     uploadTradeLog.ShippingId = shippingId;
                     uploadTradeLog.ImportStatus = "IMPORTED";
+                    trade.WriteShippingImportLog(uploadTradeLog);
+                }
+                else
+                {
+                    uploadTradeLog.ShippingId = shippingId;
+                    uploadTradeLog.ImportStatus = "VALIDATIONS";
+                    uploadTradeLog.ExceptionMessage = shippingMissedElements;
                     trade.WriteShippingImportLog(uploadTradeLog);
                 }
             }
@@ -126,6 +145,7 @@ namespace Trading.BLL
                 uploadTradeLog.ImportStatus = "FAILED";
                 uploadTradeLog.ExceptionMessage = ex.Message;
                 trade.WriteShippingImportLog(uploadTradeLog);
+                _tradeLogger.Error("Trading.BLL.Trade.LoadSheet", ex);
                 throw ex;
             }
         }
@@ -150,7 +170,7 @@ namespace Trading.BLL
                     string shippingElementKey = tradeSheetRow.Cells[0].ToString().Replace(":", "").Trim(); // first cell of each row
                     if (shippingElementKey != string.Empty)
                     {
-                        IEnumerable<XElement> shippingProperty = ShippingModelDocument.Root.Descendants("Shipping").Descendants("Properties")
+                        IEnumerable<XElement> shippingProperty = _shippingModelDocument.Root.Descendants("Shipping").Descendants("Properties")
                                                     .Elements("Property").Where(x => shippingElementKey.Contains(x.Attribute("RowLabel").Value));
                         if (shippingProperty.Any())
                         {
@@ -164,10 +184,10 @@ namespace Trading.BLL
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    throw;
+                    _tradeLogger.Error("Trading.BLL.Trade.LoadSheet", ex);
+                    throw ex;
                 }   
             }
             return shippingDetail;
@@ -188,10 +208,10 @@ namespace Trading.BLL
                         documentInstructionList.Add(new DocumentInstruction() { Instruction = item.StringCellValue });
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    throw;
+                    _tradeLogger.Error("Trading.BLL.Trade.LoadSheet", ex);
+                    throw ex;
                 }
             }
             return documentInstructionList;
@@ -244,7 +264,7 @@ namespace Trading.BLL
                     else if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains("P/O NO")).Count > 0)
                     {
                         headerRowIndex = rowCounter;
-                        columnsMetaData = ShippingModelDocument.Root.Descendants("ShippingModels").Descendants("Column").ToList();
+                        columnsMetaData = _shippingModelDocument.Root.Descendants("ShippingModels").Descendants("Column").ToList();
                         for (int columnIndex = 0; columnIndex < tradeSheetRow.Cells.Count; columnIndex++)
                         {
                             XElement headerColumnElement = columnsMetaData
@@ -258,10 +278,10 @@ namespace Trading.BLL
                         break;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    throw;
+                    _tradeLogger.Error("Trading.BLL.Trade.LoadSheet", ex);
+                    throw ex;
                 }
             }
             return shippingModelList;

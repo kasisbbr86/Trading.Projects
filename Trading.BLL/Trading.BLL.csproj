@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Trading.DAL\Trading.DAL.csproj" />
     <ProjectReference Include="..\Trading.DAO\Trading.DAO.csproj" />
+    <ProjectReference Include="..\Trading.Utilities\Trading.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
