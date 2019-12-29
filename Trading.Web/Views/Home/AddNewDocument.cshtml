@@ -380,6 +380,8 @@
                         o.success();
                     },
                     destroy: function (o) {
+                        //debugger;
+                        e.preventDefault();
                         console.log("master destroy");
                         o.success();
                     },
@@ -482,10 +484,28 @@
                                 });
                             }
                         },
-                        { name: "destroy", text: " " }
+                        {
+                            name: "destroy", text: " "
+                        }
                     ]
                 }
             ],
+            remove: function (e) { 
+                //debugger;
+                $.ajax({
+                    url: "/Home/DeleteInvoice",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        invoiceDetailID: e.model.DetailsID, // set the id
+                    }),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        //debugger;
+                        alert('Invoice Deleted');
+                    }
+                });
+            },
             detailInit: detailInit,
             dataBound: function () {
                 this.expandRow(this.tbody.find("tr.k-master-row").first());
@@ -510,10 +530,13 @@
                 transport: {
                     read: function (o) {
                         console.log("child read");
-                        var parentId = detailRow.find("tr.k-master-row").prevObject[0].previousSibling.innerText.trim();
+                        //debugger;
+                        //var parentId = detailRow.find("tr.k-master-row").prevObject[0].previousSibling.innerText.trim();
+                        var parentId = detailRow.prev().find('td')[2].innerHTML;
                         $.ajax({
                             url: "/Home/GetCourierDetailsRecord?parentDetailID=" + parentId,
                             type: 'Get',
+                            cache: false,
                             dataType: "json",
                             contentType: 'application/json; charset=utf-8',
                             success: function (data) {
@@ -545,11 +568,15 @@
                     },
                     destroy: function (o) {
                         console.log("child destroy");
+                        //debugger;
+                        e.preventDefault();
                         var parentId = detailRow.find("tr.k-master-row").prevObject[0].previousSibling.innerText.trim();
                         DetailDelete(parentId, o);
                         o.success();
                     },
                     create: function (o) {
+                        e.preventDefault();
+                        //debugger;
                         var parentId = detailRow.find("tr.k-master-row").prevObject[0].previousSibling.innerText.trim();
                         console.log("child create");
                         var record = o.data;

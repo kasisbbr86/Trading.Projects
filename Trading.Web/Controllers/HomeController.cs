@@ -273,7 +273,14 @@ namespace Trading.Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
+        [HttpPost]
+        public JsonResult DeleteInvoice(int invoiceDetailID)
+        {
+            Trading.BLL.Trade trade = new BLL.Trade();
+            trade.TradeDBConnectionString = ConfigurationManager.ConnectionStrings["TradeConnectionString"].ConnectionString;
+            trade.DeleteCourierInvoice(invoiceDetailID);
+            return Json(invoiceDetailID);
+        }
 
         public string CompressSubDetails(List<IncomingCourierDetailsVM> incomingCourierDetails, Int64 detailsID)
         {

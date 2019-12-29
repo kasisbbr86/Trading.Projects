@@ -243,6 +243,36 @@ namespace Trading.DAL
                 throw ex;
             }
         }
+        
+        public int DeleteCourierInvoice(int invoiceDetailID)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(TradeDBConnectionString))
+                {
+                    connection.Open();
+                    SqlCommand sCommand = new SqlCommand();
+                    sCommand.CommandText = "DeleteCourierInvoice";
+                    sCommand.CommandType = CommandType.StoredProcedure;
+                    sCommand.Connection = connection;
+
+                    SqlParameter parameter = new SqlParameter();
+                    parameter.ParameterName = "@InvoiceDetailId";
+                    parameter.SqlDbType = SqlDbType.Int;
+                    parameter.Value = invoiceDetailID;
+                    sCommand.Parameters.Add(parameter);
+
+                    int recordDeleted = sCommand.ExecuteNonQuery();
+                    connection.Close();
+                    return recordDeleted;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public void WriteShippingImportLog(UploadTradeLog uploadTradeLog)
         {

@@ -453,5 +453,12 @@ namespace Trading.BLL
             trade.TradeDBConnectionString = this.TradeDBConnectionString;
             return trade.GetCourierList();
         }
+
+        public int DeleteCourierInvoice(int invoiceDetailID)
+        {
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            return trade.DeleteCourierInvoice(invoiceDetailID);
+        }
     }
 }
