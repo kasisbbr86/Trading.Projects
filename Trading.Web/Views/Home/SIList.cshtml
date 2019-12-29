@@ -1,0 +1,319 @@
+﻿@model List<Trading.ViewModel.Shipping>
+@{
+    ViewBag.Title = "SIList";
+}
+
+
+
+
+
+<!-- Custom styles for this page -->
+<link href="~/Content/tree/js/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+
+<style>
+
+    .image-upload > input {
+        display: none;
+    }
+
+
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+    }
+
+    .awbc {
+        color: #4e73df
+    }
+
+    table.dataTable thead tr {
+        background: #B45C48;
+        color: #fff;
+    }
+
+    .page-item.active .page-link {
+        background: #B45C48;
+        border-color: #a43820;
+    }
+
+
+    .example_e {
+        border: none;
+        background: linear-gradient(to right, #a43820, #e78e7d) !important;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 5px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+    }
+
+        .example_e:hover {
+            color: linear-gradient(to right, #a43820, #e78e7d) !important;
+            font-weight: 500 !important;
+            letter-spacing: 3px;
+            background: #fff;
+            -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+            -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+            transition: all 0.3s ease 0s;
+        }
+
+    .btn-success {
+        border-color: #a43820 !important;
+    }
+
+
+    .btn-circle {
+        height: 2rem !important;
+        width: 2rem !important;
+        background: linear-gradient(to right, #a43820, #e78e7d) !important;
+    }
+
+    .card-body {
+        padding: 0rem;
+    }
+
+    table.dataTable.table-sm > thead > tr > th {
+        white-space: nowrap;
+    }
+
+    .inlinestyle {
+        margin-top: -31px;
+        margin-left: 195px;
+    }
+
+    .hidealert {
+        display:none;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        
+        display: none;
+    }
+</style>
+
+
+
+
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+
+
+<div class="container-fluid">
+    <div id="alert_placeholder"
+         ></div>
+    <div class="button_cont"><a class="example_e">Shipping Item List </a></div>
+    <!-- <div class="card shadow mb-4"> -->
+    <!-- <div class="row"> -->
+    <!-- <div class="button_cont"><a class="example_e" href="add-website-here" target="_blank" rel="nofollow noopener">Incoming Courier Search </a></div> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- Page Heading -->
+    <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
+    <!-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> -->
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="row">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-md-2">
+
+                    <input style="margin-left: 40px;" type="text" id="SIListQuickSearch" class="form-control form-control-sm" placeholder="Quick Search">
+
+                </div>
+
+                <div class="col">
+
+                    <!-- <a href="#" class="btn btn-success btn-icon-split"> -->
+                    <!-- <span class="icon text-white-50"> -->
+                    <!-- <i class="fas fa-plus"></i> -->
+                    <!-- </span> -->
+                    <!-- <span class="text">Create</span> -->
+                    <!-- </a> -->
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="/home/addnewdocument" class="btn btn-success btn-circle"><i class="fas fa-plus"></i></a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a onclick="openFilter()" class="btn btn-success btn-circle"><i class="fas fa-filter"></i></a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#" class="btn btn-success btn-circle"><i class="fas fa-download"></i></a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    @using (Html.BeginForm("SIList", "Home", FormMethod.Post, new { id = "formValidate", @class = "inlinestyle", enctype = "multipart/form-data" }))
+    {
+
+                <span class="image-upload">
+                    <label for="file-input">
+                        <span class="btn btn-success btn-circle"><i class="fas fa-upload"></i></span>
+                    </label>
+                    <input type="file" id="file-input" name="postedFile" oninput="AutoSubmit();" />
+                </span>
+}
+                </div>
+
+            </div>
+            <p></p>
+            <div style="display:none;" id="showFilter" class="row">
+                <div class="col-3">
+
+                    <input type="text" class="form-control form-control-sm searchField" placeholder="SI No" column="0">
+
+                </div>
+                <div class="col-3">
+
+                    <input type="text" class="form-control form-control-sm searchField" placeholder="Vendor" column="2">
+
+                </div>
+                <div class="col-3">
+
+                    <select id="inputState" class="form-control form-control-sm searchField" column="7">
+                        <option value="">Select Freight</option>
+                        <option value="Sea Freight">Sea</option>
+                        <option value="Air Freight">Air </option>
+                    </select>
+
+                </div>
+                <div class="col-3">
+
+                    @*<a class="example_e">Submit </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="example_e">cancel </a>*@
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    
+                    <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr style="text-align:center">
+                                <th>SI NO</th>
+                                <th>SI Date</th>
+                                <th>Vendor</th>
+                                <th>Sold To party</th>
+                                @*<th>Ship To Party</th>*@
+                                <th>BL Consignee</th>
+                                <th>Port of Discharge</th>
+                                <th>Port Of Destination</th>
+                                <th>Transportation</th>
+                                <th>Lc No</th>
+                            </tr>
+                        </thead>
+                        <!-- <tfoot> -->
+                        <!-- <tr> -->
+                        <!-- <th>Name</th> -->
+                        <!-- <th>Position</th> -->
+                        <!-- <th>Office</th> -->
+                        <!-- <th>Age</th> -->
+                        <!-- <th>Start date</th> -->
+                        <!-- <th>Salary</th> -->
+                        <!-- </tr> -->
+                        <!-- </tfoot> -->
+                        <tbody>
+                            @foreach (var item in @Model)
+            {
+                            <tr>
+                                <td class="awbc"><a href="/Home/Trade?shippingId=@item.SINo">@item.SINo</a></td>
+                               
+                                <td> @item.SIDate</td>
+                                <td>@item.Vender</td>
+                                <td>@item.SoldToParty</td>
+                                @*<td> @item.ShipToParty</td>*@
+                                <td>@item.BLConsignee</td>
+                                <td>@item.PortOfDischarge</td>
+                                <td>@item.FinalDestination</td>
+                                <td>@item.Transportation</td>
+                                <td>@item.LCNo</td>
+                            </tr>
+}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+   
+
+        $(document).ready(function () {
+           // $('#alert_placeholder').css("display", "hidden");
+
+            var getErrorMessage = "@ViewBag.Exception";
+            if (getErrorMessage != "") {
+                //alert(getErrorMessage);
+                document.getElementById("alert_placeholder").innerHTML = '<div style="display:inline-block;" class="alert alert-info alert-dismissable"><a class="close" data-dismiss="alert" aria-hidden="true">&nbsp;&times;</a><span>' + getErrorMessage + '</span></div>';
+            }
+            setTimeout(function () {
+                $(".alert").alert('close');
+            }, 5000);
+        });
+
+       
+        $("#SIListQuickSearch").on("input", function (e) {
+            e.preventDefault();
+            $('#dataTable').DataTable().search($(this).val()).draw();
+        });
+
+        $(".searchField").on("keyup change", function () {
+            var input = $(this);
+            var colIndex = parseInt(input.attr("column"));
+            $('#dataTable').DataTable().column(colIndex).search(input.val()).draw();
+        });
+
+        function openFilter() {
+            $("#showFilter").toggle();
+        }
+        function AutoSubmit() {
+            $("#formValidate").submit();
+        }
+
+
+</script>
+
+    <script src="~/Content/tree/js/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/tree/js/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="~/Content/tree/js/demo/datatables-demo.js"></script>
+
+
+
+
+

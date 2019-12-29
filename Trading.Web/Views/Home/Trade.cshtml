@@ -1,8 +1,40 @@
-﻿@model Trading.DAO.UploadTrade
+﻿@model Trading.ViewModel.UploadTradeVM
 @{
     ViewBag.Title = "Trade";
 }
+<style>
+    .example_e {
+        border: none;
+        background: linear-gradient(to right, #a43820, #e78e7d) !important;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 5px;
+        text-transform: capitalize;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+    }
 
+        .example_e:hover {
+            color: linear-gradient(to right, #a43820, #e78e7d) !important;
+            font-weight: 500 !important;
+            letter-spacing: 3px;
+            background: #fff;
+            -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+            -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+            transition: all 0.3s ease 0s;
+        }
+
+    .property-value {
+        color: #a43820;
+        font-weight: bold;
+    }
+
+    .panel-body thead tr {
+        background: #B45C48;
+        color: #fff;
+    }
+</style>
 @*https://stackoverflow.com/questions/50165910/reference-netstandard-2-0-types-in-asp-net-mvc-5-razor-views-in-net-4-7-1*@
 @using (Ajax.BeginForm("Trade", "Home", new AjaxOptions
 {
@@ -23,219 +55,385 @@
                 </div>
             </div>
         }
-        <div class="form-group">
+       <!-- <div class="form-group">
             @*@Html.LabelFor(model => model.ShippingId, htmlAttributes: new { @class = "control-label col-md-1" })*@
-            <div class="control-label col-md-1">
-                Instruction No.
+            <div class="row">
+                <div class="col-3">
+                    @Html.EditorFor(model => model.ShippingId, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control"
+                        }
+                    })
+
+
+
+
+                    <label for=""> Instruction No.</label>
+                </div>
+                <div class="col-2">
+                    <input id="submitButton" name="submitButton" type="submit" class="form-control form-control-sm btn btn-primary example_e" value="Search" onclick="location.href='@Url.Action(" Trade", "Home" )'" />
+                </div>
+                <div class="col-3">
+                    <span>Select File :&nbsp;&nbsp;&nbsp;</span><input type="file" name="postedFile" id="postedFile" style="display: inline;" />
+
+                </div>
+                <div class="col-2">
+                    <input type="submit" value="Upload" id="submitButton" name="submitButton" class="btn btn-primary" onclick="location.href='@Url.Action("Trade", "Home")'" />
+                </div>
+
             </div>
-            <div class="col-md-3">
-                @Html.EditorFor(model => model.ShippingId, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-            <div class="col-md-3">
-                <input type="submit" value="Search" id="submitButton" name="submitButton" class="btn btn-default"
-                       onclick="location.href='@Url.Action("Trade", "Home")'" />
-            </div>
-            <div class="col-md-4">
-                <span>Select File :&nbsp;&nbsp;&nbsp;</span><input type="file" name="postedFile" id="postedFile" multiple style="display: inline;" />
-            </div>
-            <div class="col-md-1">
-                <input type="button" value="Upload" id="uploadButton" name="uploadButton" class="btn btn-default" />
-            </div>
-        </div>
+        </div>-->
         <div class="form-group">
             <div class="panel-group" id="accordion">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseDNF">
-                                Shipping Header Details
+                        <p class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseDNF" class="example_e">
+                                Shipping Details
                             </a>
-                        </h4>
+                        </p>
                     </div>
-                    <div id="collapseDNF" class="panel-collapse collapse in">
+                    <div id="collapseDNF" class="panel-collapse collapse show">
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-3">TradeSheetName</div>
-                                <div class="col-md-3">&nbsp;</div>
-                                <div class="col-md-3">SIDate</div>
-                                <div class="col-md-3">SINo</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.TradeSheetName, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3">&nbsp;</div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.SIDate, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.SINo, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                            </div>
-                            <br style="height:2px;" />
-                            <div class="row">
-                                <div class="col-md-3">Vender</div>
-                                <div class="col-md-3">SoldToParty</div>
-                                <div class="col-md-3">ShipToParty</div>
-                                <div class="col-md-3">BLConsignee</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.Vender, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.SoldToParty, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.ShipToParty, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.BLConsignee, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                            </div>
-                            <br style="height:2px;" />
-                            <div class="row">
-                                <div class="col-md-3">PortOfDischarge</div>
-                                <div class="col-md-3">FinalDestination</div>
-                                <div class="col-md-3">Via</div>
-                                <div class="col-md-3">Transportation</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.PortOfDischarge, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.FinalDestination, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.Via, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.Transportation, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                            </div>
-                            <br style="height:2px;" />
-                            <div class="row">
-                                <div class="col-md-3">PortOfLoading</div>
-                                <div class="col-md-3">TradeTerms</div>
-                                <div class="col-md-3">PaymentTerms</div>
-                                <div class="col-md-3">Freight</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.PortOfLoading, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.TradeTerms, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.PaymentTerms, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.Freight, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                            </div>
-                            <br style="height:2px;" />
-                            <div class="row">
-                                <div class="col-md-3">PortOfDischarge</div>
-                                <div class="col-md-3">FinalDestination</div>
-                                <div class="col-md-3">Via</div>
-                                <div class="col-md-3">Transportation</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.PortOfDischarge, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.FinalDestination, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.Via, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.Transportation, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                            </div>
-                            <br style="height:2px;" />
-                            <div class="row">
-                                <div class="col-md-3">LCNo</div>
-                                <div class="col-md-3">LCIssuanceDate</div>
-                                <div class="col-md-3">LCIssuingBank</div>
-                                <div class="col-md-3">LCExpiryDate</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.LCNo, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.LCIssuanceDate, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.LCIssuingBank, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.LCExpiryDate, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                            </div>
-                            <br style="height:2px;" />
-                            <div class="row">
-                                <div class="col-md-3">ShipmentExpiryDate</div>
-                                <div class="col-md-3">RequiredBLDate</div>
-                                <div class="col-md-3">PartialShipment</div>
-                                <div class="col-md-3">TransShipment</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.ShipmentExpiryDate, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.RequiredBLDate, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.PartialShipment, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="col-md-3 property-value">
-                                    @Html.DisplayFor(model => model.Shipping.TransShipment, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                            </div>
+                            <table class="table table-bordered table-sm table-striped">
+                                <tbody>
+
+                                    <tr>
+                                        <td>Trade Sheet Name</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.TradeSheetName, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                        <td>Vendor Code</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.Vender, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class =
+"form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>SI Date</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.SIDate, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class =
+"form-control"
+                                                }
+                                            })
+                                        </td>
+                                        <td>SI No</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.SINo, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class =
+"form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Sold to Party</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.SoldToParty, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                        <td>Ship To Party</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.ShipToParty, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+
+
+
+                                    <tr>
+                                        <td>Port Of Discharge</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.PortOfDischarge, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                        <td>Port of Destination</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.FinalDestination, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Transportation</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.Transportation, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                        <td>Port Of Loading</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.PortOfLoading, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Trade Terms</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.TradeTerms, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class
+                                = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                        <td>Payment Terms</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.PaymentTerms, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>LC No</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.LCNo, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class =
+                                "form-control"
+                                                }
+                                            })
+                                        </td>
+                                        <td>Freight</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.Freight, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class =
+                                "form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>BL Consignee</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.BLConsignee, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                        <td>Lc Issuing Bank</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.LCIssuingBank, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>LC Issuance Date</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.LCIssuanceDate, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                        <td>Lc Expiry Date</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.LCExpiryDate, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shipment Expiry Date</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.ShipmentExpiryDate, new
+                                            {
+                                                htmlAttributes = new
+                                                { @class = "form-control" }
+                                            })
+                                        </td>
+                                        <td>Required BL Date</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.RequiredBLDate, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Partial Shipment</td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.PartialShipment, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                        <td> Trans Shipment </td>
+                                        <td class="property-value">
+                                            @Html.DisplayFor(model => model.Shipping.TransShipment, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control"
+                                                }
+                                            })
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseITF">
+                        <p class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseITF" class="example_e">
                                 Shipping Instructions
                             </a>
-                        </h4>
+                        </p>
                     </div>
                     <div id="collapseITF" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-12"></div>
-                            </div>
-                            @foreach (var item in Model.DocumentInstructions)
-                            {
-                                <div class="row">
-                                    <div class="col-md-12 property-value">
-                                        @item.Instruction
-                                    </div>
-                                </div>
-                            }
+                            <table class="table table-bordered table-sm table-striped">
+                                <thead>
+                                    <tr style="text-align:center;">
+                                        <th>Document Name</th>
+                                        <th>No Of Copies</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.DocumentInstructions)
+                                    {
+                                        <tr>
+                                            <td>@item.Instruction</td>
+                                            <td style="text-align:right">@item.Copies</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseKF">
+                        <p class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseKF" class="example_e">
                                 Shipping Models
                             </a>
-                        </h4>
+                        </p>
                     </div>
                     <div id="collapseKF" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <div class="row">
+                            <table class="table table-bordered table-sm table-striped">
+                                <thead>
+                                    <tr style="text-align:center;">
+                                        <th>PO No</th>
+                                        <th>Row No</th>
+                                        <th>Model Name</th>
+                                        <th>Description</th>
+                                        <th>Version</th>
+                                        <th>Quantity</th>
+                                        <th>BL Model Name</th>
+                                        <th>Sales Contract No</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ShippingModels)
+                                    {
+                                    <tr>
+                                        <td style="text-align:center">@item.PONo</td>
+                                        <td style="text-align:center">@item.LineNo</td>
+                                        <td>@item.ModelName</td>
+                                        <td>@item.Description</td>
+                                        <td>@item.Version</td>
+                                        <td style="text-align:right">@item.Quantity</td>
+                                        <td>@item.BLModelName</td>
+                                        <td>@item.SCNo</td>
+                                        <td>@item.Remarks</td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <!--<div class="row">
                                 <div class="col-md-2">PONo</div>
                                 <div class="col-md-2">Description</div>
                                 <div class="col-md-2">ModelName</div>
@@ -245,31 +443,31 @@
                                 <div class="col-md-2">Remarks</div>
                                 @foreach (var item in Model.ShippingModels)
                                 {
-                                    <div class="row">
-                                        <div class="col-md-2 property-value">
-                                            @item.PONo
-                                        </div>
-                                        <div class="col-md-2 property-value">
-                                            @item.Description
-                                        </div>
-                                        <div class="col-md-2 property-value">
-                                            @item.ModelName
-                                        </div>
-                                        <div class="col-md-1 property-value">
-                                            @item.Version
-                                        </div>
-                                        <div class="col-md-1 property-value">
-                                            @item.Quantity
-                                        </div>
-                                        <div class="col-md-2 property-value">
-                                            @item.BLModelName
-                                        </div>
-                                        <div class="col-md-2 property-value">
-                                            @item.Remarks
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-2 property-value">
+                                        @item.PONo
                                     </div>
+                                    <div class="col-md-2 property-value">
+                                        @item.Description
+                                    </div>
+                                    <div class="col-md-2 property-value">
+                                        @item.ModelName
+                                    </div>
+                                    <div class="col-md-1 property-value">
+                                        @item.Version
+                                    </div>
+                                    <div class="col-md-1 property-value">
+                                        @item.Quantity
+                                    </div>
+                                    <div class="col-md-2 property-value">
+                                        @item.BLModelName
+                                    </div>
+                                    <div class="col-md-2 property-value">
+                                        @item.Remarks
+                                    </div>
+                                </div>
                                 }
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -277,3 +475,4 @@
         </div>
     </div>
 }
+

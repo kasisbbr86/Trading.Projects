@@ -4,6 +4,17 @@
     "D:\\GitHub\\Trading.Projects\\Trading.DAO\\Trading.DAO.csproj": {}
   },
   "projects": {
+    "D:\\GitHub\\Trading.Projects\\Solutions\\Trading.ViewModel\\Trading.ViewModel.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\GitHub\\Trading.Projects\\Solutions\\Trading.ViewModel\\Trading.ViewModel.csproj",
+        "projectName": "Trading.ViewModel",
+        "projectPath": "D:\\GitHub\\Trading.Projects\\Solutions\\Trading.ViewModel\\Trading.ViewModel.csproj"
+      },
+      "frameworks": {
+        "net461": {}
+      }
+    },
     "D:\\GitHub\\Trading.Projects\\Trading.DAO\\Trading.DAO.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -26,7 +37,11 @@
         },
         "frameworks": {
           "netstandard2.0": {
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\GitHub\\Trading.Projects\\Solutions\\Trading.ViewModel\\Trading.ViewModel.csproj": {
+                "projectPath": "D:\\GitHub\\Trading.Projects\\Solutions\\Trading.ViewModel\\Trading.ViewModel.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

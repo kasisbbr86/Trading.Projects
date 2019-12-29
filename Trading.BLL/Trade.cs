@@ -10,10 +10,11 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Data;
 using Trading.Utilities;
+using Trading.ViewModel;
 
 namespace Trading.BLL
 {
-    public class Trade: IDisposable
+    public class Trade : IDisposable
     {
         public void Dispose()
         {
@@ -33,9 +34,60 @@ namespace Trading.BLL
             _shippingModelDocument = XDocument.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream("Trading.BLL.ImportConfiguration.xml"));
         }
 
-        public ExpandoObject LoadSheet(string sheetFullPath, int sheetIndex) 
+        public ExpandoObject SALoadSheet(string sheetFullPath, int sheetIndex)
         {
-            // https://stackoverflow.com/questions/5855813/how-to-read-file-using-npoi
+            ISheet tradeSheet;
+            try
+            {
+                using (FileStream FS = new FileStream(sheetFullPath, FileMode.Open, FileAccess.Read))
+                {
+                    IWorkbook tradingWorkbook = WorkbookFactory.Create(FS);
+                    tradeSheet = tradingWorkbook.GetSheetAt(sheetIndex);
+                }
+            }
+            catch (Exception ex)
+            {
+                _tradeLogger.Error("Trading.BLL.Trade.LoadSheet", ex);
+                throw ex;
+            }
+
+            dynamic sheetDetails = new ExpandoObject();
+            sheetDetails.Sheet = tradeSheet;
+            sheetDetails.FirstRowIndex = tradeSheet.FirstRowNum;
+            sheetDetails.LastRowIndex = tradeSheet.LastRowNum;
+            
+
+            try
+            {
+                IRow tradeSheetRow;
+                for (int rowCounter = 0; rowCounter < tradeSheet.LastRowNum; rowCounter++)
+                {
+                    tradeSheetRow = tradeSheet.GetRow(rowCounter);
+                    if (tradeSheetRow == null) continue;
+                    if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains(ShippingDetailsRowPlaceholder)).Count > 0)
+                    {
+                        sheetDetails.ShippingDetailsRowIndex = rowCounter;
+                    }
+                    else if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains(DocumentInstructionsRowPlaceholder)).Count > 0)
+                    {
+                        sheetDetails.DocumentInstructionsRowIndex = rowCounter;
+                    }
+                    else if (tradeSheetRow.Cells.FindAll(d => d.CellType == CellType.String && d.StringCellValue.Contains(ShippingModelsRowPlaceholder)).Count > 0)
+                    {
+                        sheetDetails.ShippingModelsRowIndex = rowCounter;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _tradeLogger.Error("Trading.BLL.Trade.LoadSheet", ex);
+                throw ex;
+            }
+            return sheetDetails;
+        }
+
+        public ExpandoObject LoadSheet(string sheetFullPath, int sheetIndex)
+        {
             ISheet tradeSheet;
             try
             {
@@ -88,6 +140,13 @@ namespace Trading.BLL
             return sheetDetails;
         }
 
+        public void SaveShippingAdvice(List<ShippingAdviceVM> shippingAdvice)
+        {
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            trade.SaveShippingAdvice(shippingAdvice);
+        }
+
         public bool ValidateSheet(dynamic sheetDetails)
         {
             bool isValid = true;
@@ -101,7 +160,7 @@ namespace Trading.BLL
             return isValid;
         }
 
-        public void ProcessSheet(dynamic sheetDetails) 
+        public void SAProcessSheet(dynamic sheetDetails)
         {
             UploadTrade uploadTradeDetails = new UploadTrade();
             UploadTradeLog uploadTradeLog = new UploadTradeLog() { ImportDate = DateTime.Now, WorkBookName = sheetDetails.Sheet.SheetName, TradeRequest = string.Empty, ExceptionMessage = string.Empty };
@@ -116,9 +175,10 @@ namespace Trading.BLL
                 uploadTradeDetails.DocumentInstructions = GetDocumentInstructions(sheetDetails.Sheet, sheetDetails.DocumentInstructionsRowIndex);
                 uploadTradeDetails.ShippingModels = GetShippingModels(sheetDetails.Sheet, sheetDetails.ShippingModelsRowIndex);
 
-                if (uploadTradeDetails.Shipping.SINo.Trim() != string.Empty)
+                var CheckIsSINoAlreadyExist = trade.CheckIsSINoAlreadyExist(uploadTradeDetails.Shipping.SINo);
+                if (CheckIsSINoAlreadyExist)
                 {
-                    shippingMissedElements = "The SI No is not avaialable. Please include and process again.";
+                    throw new Exception("Import already done for this Shipping Instruction");
                 }
                 else
                 {
@@ -151,16 +211,97 @@ namespace Trading.BLL
             }
         }
 
-        public UploadTrade GetShippingTradeDetails(int shippingId)
+        public void ProcessSheet(dynamic sheetDetails)
+        {
+            UploadTrade uploadTradeDetails = new UploadTrade();
+            UploadTradeLog uploadTradeLog = new UploadTradeLog() { ImportDate = DateTime.Now, WorkBookName = sheetDetails.Sheet.SheetName, TradeRequest = string.Empty, ExceptionMessage = string.Empty };
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            int shippingId = -1;
+            string shippingMissedElements = string.Empty;
+            try
+            {
+                uploadTradeDetails.Shipping = GetShipping(sheetDetails.Sheet, sheetDetails.ShippingDetailsRowIndex, sheetDetails.DocumentInstructionsRowIndex);
+                uploadTradeDetails.Shipping.TradeSheetName = sheetDetails.Sheet.SheetName;
+                uploadTradeDetails.DocumentInstructions = GetDocumentInstructions(sheetDetails.Sheet, sheetDetails.DocumentInstructionsRowIndex);
+                uploadTradeDetails.ShippingModels = GetShippingModels(sheetDetails.Sheet, sheetDetails.ShippingModelsRowIndex);
+
+                var CheckIsSINoAlreadyExist = trade.CheckIsSINoAlreadyExist(uploadTradeDetails.Shipping.SINo);
+                if (CheckIsSINoAlreadyExist)
+                {
+                    throw new Exception("Import already done for this Shipping Instruction");
+                }
+                else
+                {
+                    DataTable documentInstructionsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.DocumentInstructions));
+                    DataTable shippingModelsTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(uploadTradeDetails.ShippingModels));
+                    shippingId = trade.SaveShippingTradeDetails(uploadTradeDetails.Shipping, documentInstructionsTable, shippingModelsTable);
+                }
+                if (shippingId > 0)
+                {
+                    uploadTradeLog.ShippingId = shippingId;
+                    uploadTradeLog.ImportStatus = "IMPORTED";
+                    trade.WriteShippingImportLog(uploadTradeLog);
+                }
+                else
+                {
+                    uploadTradeLog.ShippingId = shippingId;
+                    uploadTradeLog.ImportStatus = "VALIDATIONS";
+                    uploadTradeLog.ExceptionMessage = shippingMissedElements;
+                    trade.WriteShippingImportLog(uploadTradeLog);
+                }
+            }
+            catch (Exception ex)
+            {
+                uploadTradeLog.ShippingId = shippingId;
+                uploadTradeLog.ImportStatus = "FAILED";
+                uploadTradeLog.ExceptionMessage = ex.Message;
+                trade.WriteShippingImportLog(uploadTradeLog);
+                _tradeLogger.Error("Trading.BLL.Trade.LoadSheet", ex);
+                throw ex;
+            }
+        }
+
+        public UploadTradeVM GetShippingTradeDetails(int shippingId)
         {
             DAL.Trade trade = new DAL.Trade();
             trade.TradeDBConnectionString = this.TradeDBConnectionString;
             return trade.GetShippingTradeDetails(shippingId);
         }
 
-        private Shipping GetShipping(ISheet tradeSheet, int shippingDetailsRowIndex, int nextSectionRowIndex)
+        public IncomingCourierMasterVM GetCourierMasterDetails(int masterID)
         {
-            Shipping shippingDetail = new Shipping();
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            IncomingCourierMasterVM masterCourierWithDetails = trade.GetCourierMasterDetails(masterID);
+            return masterCourierWithDetails;
+        }
+
+        public IncomingCourierMasterVM GetCourierDocumentDetails(int parentDetailsID)
+        {
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            IncomingCourierMasterVM masterCourierWithDetails = trade.GetCourierDocumentDetails(parentDetailsID);
+            return masterCourierWithDetails;
+        }
+
+        public List<ViewModel.Shipping> GetShippingDetails()
+        {
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            return trade.GetShippingDetails();
+        }
+
+        public List<ViewModel.ShippingAdviceVM> GetShippingAdvice()
+        {
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            return trade.GetShippingAdvice();
+        }
+
+        private DAO.Shipping GetShipping(ISheet tradeSheet, int shippingDetailsRowIndex, int nextSectionRowIndex)
+        {
+            DAO.Shipping shippingDetail = new DAO.Shipping();
             IRow tradeSheetRow;
             for (int shippingRowCounter = shippingDetailsRowIndex + 1; shippingRowCounter < nextSectionRowIndex; shippingRowCounter++)
             {
@@ -181,7 +322,7 @@ namespace Trading.BLL
                             {
                                 string propertyValue = tradeSheetRow.Cells[1].ToString(); // to do check
                                 propertyInfo.SetValue(shippingDetail, propertyValue, null);
-                            }                            
+                            }
                         }
                     }
                 }
@@ -189,7 +330,7 @@ namespace Trading.BLL
                 {
                     _tradeLogger.Error("Trading.BLL.Trade.LoadSheet", ex);
                     throw ex;
-                }   
+                }
             }
             return shippingDetail;
         }
@@ -220,7 +361,7 @@ namespace Trading.BLL
 
         private List<ShippingModel> GetShippingModels(ISheet tradeSheet, int shippingModelsRowIndex)
         {
-            List<ShippingModel> shippingModelList = new List<ShippingModel>();            
+            List<ShippingModel> shippingModelList = new List<ShippingModel>();
             IRow tradeSheetRow;
             List<XElement> columnsMetaData = new List<XElement>();
             int headerRowIndex = -1;
@@ -287,6 +428,30 @@ namespace Trading.BLL
             }
             return shippingModelList;
 
+        }
+
+        public int SaveIncomingCourierMaster(IncomingCourierMasterVMSave incomingCourierMasterVM)
+        {
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            return trade.SaveIncomingCourierMaster(incomingCourierMasterVM);
+        }
+
+        public int SaveIncomingCourierDetails(List<IncomingCourierDetailsVMSave> incomingCourierDetailsVMSave)
+        {
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            DataTable incomingCourierDetailsVMTable = JsonConvert.DeserializeObject<DataTable>(JsonConvert.SerializeObject(incomingCourierDetailsVMSave));
+            if (incomingCourierDetailsVMTable.Columns.Contains("SubDetails"))
+                incomingCourierDetailsVMTable.Columns.Remove("SubDetails");
+            return trade.SaveIncomingCourierDetails(incomingCourierDetailsVMTable);
+        }
+
+        public List<Courier> GetCourierList()
+        {
+            DAL.Trade trade = new DAL.Trade();
+            trade.TradeDBConnectionString = this.TradeDBConnectionString;
+            return trade.GetCourierList();
         }
     }
 }

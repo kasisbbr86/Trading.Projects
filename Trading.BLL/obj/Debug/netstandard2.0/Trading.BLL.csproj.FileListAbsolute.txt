@@ -21,3 +21,65 @@ D:\GitHub\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.dll
 D:\GitHub\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.pdb
 D:\GitHub\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.dll
 D:\GitHub\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.pdb
+D:\Projects\Github\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.deps.json
+D:\Projects\Github\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.dll
+D:\Projects\Github\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.pdb
+D:\Projects\Github\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAL.dll
+D:\Projects\Github\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAO.dll
+D:\Projects\Github\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.dll
+D:\Projects\Github\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAL.pdb
+D:\Projects\Github\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAO.pdb
+D:\Projects\Github\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.pdb
+D:\Projects\Github\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csprojAssemblyReference.cache
+D:\Projects\Github\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csproj.CoreCompileInputs.cache
+D:\Projects\Github\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.AssemblyInfoInputs.cache
+D:\Projects\Github\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.AssemblyInfo.cs
+D:\Projects\Github\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csproj.CopyComplete
+D:\Projects\Github\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.dll
+D:\Projects\Github\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.pdb
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.deps.json
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.dll
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.pdb
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAL.dll
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAO.dll
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.dll
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAL.pdb
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAO.pdb
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.pdb
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csprojResolveAssemblyReference.cache
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csproj.CoreCompileInputs.cache
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.AssemblyInfoInputs.cache
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.AssemblyInfo.cs
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.dll
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.pdb
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.ViewModel.dll
+C:\Users\DPAN\Downloads\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.ViewModel.pdb
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.deps.json
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.dll
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.BLL.pdb
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAL.dll
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAO.dll
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.dll
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.ViewModel.dll
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAL.pdb
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAO.pdb
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.pdb
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.ViewModel.pdb
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csprojAssemblyReference.cache
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.AssemblyInfoInputs.cache
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.AssemblyInfo.cs
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csproj.CopyComplete
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.dll
+C:\Users\Administrator\Downloads\Trading.Projects(Dec 24 )\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.pdb
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAL.dll
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAO.dll
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.dll
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.ViewModel.dll
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAL.pdb
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.DAO.pdb
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.Utilities.pdb
+E:\Projects\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.ViewModel.pdb
+E:\Projects\Trading.Projects\Trading.BLL\obj\Debug\netstandard2.0\Trading.BLL.csproj.CopyComplete
+D:\GitHub\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.ViewModel.dll
+D:\GitHub\Trading.Projects\Trading.BLL\bin\Debug\netstandard2.0\Trading.ViewModel.pdb

@@ -1,0 +1,150 @@
+﻿@model List<Trading.ViewModel.ShippingAdviceVM>
+@{
+    ViewBag.Title = "SAUpload";
+}
+
+<style>
+    table.dataTable thead tr th {
+        background: #B45C48;
+        color: #fff;
+    }
+
+    .page-item.active .page-link {
+        background: #B45C48;
+        border-color: #a43820;
+    }
+
+    table.dataTable.table-sm > thead > tr > th {
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    .pagination {
+        float:right;
+    }
+
+    #SAUploadList_filter{
+        float:right;
+    }
+</style>
+
+<div class="container-fluid">
+    <div id="alert_placeholder"></div>
+    <h6 class="example_e">Upload Shipping Advice Excel File</h6>
+    <hr />
+    @using (Html.BeginForm("SAUpload", "Home", FormMethod.Post, new { id = "formValidate", @class = "inlinestyle", enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col-md-3">
+                <input type="file" class="form-control" name="SApostedFile" placeholder="" aria-label="" aria-describedby="basic-addon1">
+            </div>
+            <div class="col-md-3">
+                @*<button class="example_e"> Upload </button>*@
+                <input type="submit" value="Upload" id="submitButton" name="submitButton" class="btn btn-primary example_e" onclick="AutoSubmit();" />
+            </div>
+        </div>
+    }
+    <hr />
+  
+    <div class="card card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered" id="SAUploadList" cellspacing="0">
+                    <thead style="background:#B45C48;color:#fff;">
+                        <tr>
+                            <td>SCInvoiceNo</td>
+                            <td>InvoiceAmount</td>
+                            <td>Consignee</td>
+                            <td>BLDate</td>
+                            <td>ReceivedDate</td>
+                            <td>Shiper</td>
+                            <td>BLNo</td>
+                            <td>Factory</td>
+                            <td>Department</td>
+                            <td>Material</td>
+                            <td>Qty</td>
+                            <td>FOB</td>
+                            <td>PurchaseDocumentNo</td>
+                            <td>Item</td>
+                            <td>SAPSO</td>
+                            <td>Item</td>
+                            <td>SAPDO</td>
+                            <td>PInt</td>
+                            <td>SLoc</td>
+                            <td>S</td>
+                            <td>Seq</td>
+                            <td>Del</td>
+                            <td>Comp</td>
+                            <td>DeliveryDate</td>
+
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        @foreach (var item in @Model)
+                        {
+                        <tr>
+                            <td style="text-align:center">@item.SCInvoiceNo</td>
+                            <td style="text-align:right">@item.InvoiceAmount</td>
+
+
+
+                            <td style="text-align:center">@item.Consignee</td>
+                            <td style="text-align:center">@item.BLDate</td>
+                            <td style="text-align:center">@item.ReceivedDate</td>
+                            <td style="text-align:center">@item.Shiper</td>
+                            <td style="text-align:center">@item.BLNo</td>
+                            <td style="text-align:center">@item.Factory</td>
+                            <td style="text-align:center">@item.Department</td>
+                            <td style="text-align:center">@item.Material</td>
+                            <td style="text-align:right">@item.Quantity</td>
+                            <td style="text-align:right">@item.FOB</td>
+                            <td style="text-align:right">@item.PurchaseDocumentNo</td>
+                            <td style="text-align:right">@item.Item1</td>
+                            <td style="text-align:center">@item.SAPSO</td>
+                            <td style="text-align:right">@item.Item2</td>
+                            <td style="text-align:center">@item.SAPDO</td>
+                            <td style="text-align:right">@item.PInt</td>
+                            <td style="text-align:center">@item.SLoc</td>
+                            <td style="text-align:center">@item.Temp1</td>
+                            <td style="text-align:right">@item.Seq</td>
+                            <td style="text-align:center">@item.Del</td>
+                            <td style="text-align:center">@item.Comp</td>
+                            <td style="text-align:center">@item.DeliveryDate</td>
+
+                        </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+            var getErrorMessage = "@TempData["successMessage"]";
+            if (getErrorMessage != "") {
+                //alert(getErrorMessage);
+                document.getElementById("alert_placeholder").innerHTML = '<div style="display:inline-block;" class="alert alert-info alert-dismissable"><a class="close" data-dismiss="alert" aria-hidden="true">&nbsp;&times;</a><span>' + getErrorMessage + '</span></div>';
+            }
+            setTimeout(function () {
+                $(".alert").alert('close');
+            }, 5000);
+    });
+
+   
+
+    function AutoSubmit() {
+        $("#formValidate").submit();
+    }
+</script>
+
+<script src="~/Content/tree/js/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Content/tree/js/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="~/Content/tree/js/demo/datatables-demo.js"></script>

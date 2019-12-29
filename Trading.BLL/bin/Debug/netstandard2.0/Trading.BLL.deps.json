@@ -1077,6 +1077,9 @@
         }
       },
       "Trading.DAO/1.0.0": {
+        "dependencies": {
+          "Trading.ViewModel": "1.0.0"
+        },
         "runtime": {
           "Trading.DAO.dll": {}
         }
@@ -1087,6 +1090,11 @@
         },
         "runtime": {
           "Trading.Utilities.dll": {}
+        }
+      },
+      "Trading.ViewModel/1.0.0": {
+        "runtime": {
+          "Trading.ViewModel.dll": {}
         }
       }
     }
@@ -1724,6 +1732,11 @@
       "sha512": ""
     },
     "Trading.Utilities/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Trading.ViewModel/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

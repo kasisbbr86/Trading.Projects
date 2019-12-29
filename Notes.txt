@@ -1,0 +1,41 @@
+doc detail master
+
+http://23.99.141.88:9999/home/CourierList
+http://23.99.141.88:9999/home/AddNewDocument?masterid=1
+
+https://docs.telerik.com/kendo-ui/api/javascript/ui/grid
+kendo grid - jquery = https://www.codeproject.com/Articles/606682/Kendo-Grid-In-Action
+
+https://docs.telerik.com/kendo-ui/knowledge-base/edit-master-row-data-in-detail-template
+https://docs.telerik.com/kendo-ui/knowledge-base/grid-detail-template-edit-master-rows
+Get Parent Row - https://www.telerik.com/forums/master-detail-grid-how-to-get-master's-id-into-detail-grid's-custom-popup-editor
+batch edit with grid in edit mode - https://stackoverflow.com/questions/48258417/kendo-batch-editing-with-entire-grid-edit-mode
+add row - https://stackoverflow.com/questions/51369429/add-row-to-kendo-grid-in-javascript-with-data
+edit operation access - https://www.telerik.com/forums/grid-incell-editing-disabling-conditional
+edit grid cell - https://stackoverflow.com/questions/20881484/make-cell-readonly-in-kendo-grid-if-condition-is-met
+conditionally set class on row - https://www.telerik.com/forums/conditionally-set-class-on-rows
+
+find master detail rows - https://www.telerik.com/forums/master-detail-grid-how-to-get-master's-id-into-detail-grid's-custom-popup-editor
+https://www.telerik.com/forums/how-to-access-the-detail-grid-programmatically
+https://www.telerik.com/forums/get-all-detail-data-from-hierarchy-grid
+
+refresh a grid
+https://stackoverflow.com/questions/21863449/how-can-i-refresh-the-grid-after-i-edit-the-kendo-ui-grid
+https://www.telerik.com/forums/calling-refresh-is-not-refreshing-the-grid
+
+kendo datasource
+https://docs.telerik.com/kendo-ui/api/javascript/data/datasource/events/requestend
+
+remove dirty indicator during restore.
+https://github.com/telerik/kendo-ui-core/blob/master/docs/knowledge-base/grid-remove-dirty-indicator-when-value-is-original-state.md
+
+kendo grid show/hide columns
+https://www.telerik.com/forums/show-hide-columns-using-css
+https://www.telerik.com/forums/how-to-hide-column-grid
+https://stackoverflow.com/questions/12983872/hide-column-in-kendo-ui-using-jquery-or-js
+
+make a column non-editable
+https://www.telerik.com/forums/how-to-make-a-non-editable-column-field
+
+
+

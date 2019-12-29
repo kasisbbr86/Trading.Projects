@@ -1,0 +1,620 @@
+﻿
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker-standalone.min.css" integrity="sha256-SMGbWcp5wJOVXYlZJyAXqoVWaE/vgFA5xfrH3i/jVw0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />
+<style>
+
+    /*Kendo Hierarchy CSS Start*/
+
+    .k-header {
+        background: #B45C48;
+        color: #fff;
+    }
+
+    .k-grid-header {
+        background: #B45C48;
+    }
+
+        .k-grid-header .k-header > .k-link {
+            color: #fff;
+        }
+
+    .k-pager-wrap .k-link.k-state-disabled {
+        color: #fff;
+    }
+
+    .k-pager-wrap > .k-link {
+        background: #B45C48;
+        color: #fff;
+    }
+
+    .k-button {
+        border-radius: 4px;
+        border-color: transparent;
+        color: #fff;
+        background-position: 50% 50%;
+        background: #ba5536;
+    }
+
+    /*Kendo Hierarchy CSS End*/
+    .font-awesome .fa {
+        font-family: "Font Awesome 5 Free",'Barlow' !important;
+    }
+
+    .fa, .far, .fas {
+        font-family: "Font Awesome 5 Free",'Barlow';
+    }
+
+    .awbc {
+        color: #4e73df
+    }
+
+    table.dataTable thead tr {
+        background-color: #2E933C;
+        color: #fff;
+    }
+
+    body label {
+        font-weight: bolder;
+        color: #555660;
+    }
+
+    .example_e {
+        border: none;
+        background: linear-gradient(to right, #a43820, #e78e7d) !important;
+        color: #ffffff !important;
+        font-weight: 100;
+        padding: 5px;
+        text-transform: capitalize;
+        border-radius: 6px;
+        display: inline-block;
+        transition: all 0.3s ease 0s;
+    }
+
+        .example_e:hover {
+            color: linear-gradient(to right, #a43820, #e78e7d) !important;
+            font-weight: 500 !important;
+            letter-spacing: 3px;
+            background: #fff;
+            -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+            -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+            transition: all 0.3s ease 0s;
+        }
+
+    .btn-success {
+        border-color: #a43820 !important;
+    }
+
+    .btn-circle {
+        height: 2rem !important;
+        width: 2rem !important;
+        background: linear-gradient(to right, #a43820, #e78e7d) !important;
+    }
+</style>
+
+<!-- Icon Modal-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Field to Dropdown?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-sm" id="formGroupExampleInput"
+                           placeholder="Add New Field">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="example_e" type="button" data-dismiss="modal">Submit</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="button_cont"><a class="example_e"> New Incoming </a></div>
+    <!-- Page Heading -->
+    <!-- <h1 class="h3 mb-4 text-gray-800">Blank Page</h1> -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">AWB Number</label>
+                        <input type="text" class="form-control form-control-sm" id="awbNumber"
+                               placeholder="ABSA-549-M3" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Courier Company</label>
+                        <select id="courierCompany" class="form-control form-control-sm type" required>
+                            <option value="1">Fedex</option>
+                            <option value="2">DHL</option>
+                            <option value="3">Raxino</option>
+                            <option value="4">Marvel</option>
+                            <option value="donations" style="text-align:right" class="fa">&#xf055;</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Received From</label>
+                        <select id="receivedFrom" class="form-control form-control-sm type" required>
+                            <option value="1">Raxino</option>
+                            <option value="2">DHL</option>
+                            <option value="3">Fedex</option>
+                            <option value="4">Marvel</option>
+                            <option value="donations" style="text-align:right" class="fa">&#xf055;</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Received Date And Time</label>
+                        <input type="text" class="form-control form-control-sm datetimepicker4" id="receivedDataTime"
+                               placeholder="Date & time">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Courier For </label>
+                        <select id="inputState" class="form-control form-control-sm">
+
+                            <option value="1">Admin 1</option>
+                            <option value="2">Emp 1</option>
+                            <option value="3">Admin 2</option>
+                            <option value="4">Emp2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Document Type</label>
+                        <select id="type" class=" fa form-control form-control-sm type" required>
+
+                            <option value="1">Logistic Materials</option>
+                            <option value="2">HR Documents </option>
+                            <option value="3">Others</option>
+                            <option value="donations" style="text-align:right" class="fa">&#xf055;</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Handovered On</label>
+                        <input type="text" class="form-control form-control-sm datetimepicker4" id="handoveredOnDateTime"
+                               placeholder="Date & time">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    &nbsp;
+                </div>
+                <div class="col-2">
+                    <div style="float: right;">
+                        <input type="button" value="Save" id="masterSaveButton" name="masterSaveButton" class="btn btn-primary example_e" />
+                        <input type="hidden" id="masterIdKey" />
+                        <input type="hidden" id="masterIdKeyGuid" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p>
+    </p>
+    <div class="button_cont"><a class="example_e"> Item Details </a></div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+            <div id="grid"></div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Content/tree/js/jquery.treegrid.js"></script>
+<script src="	https://unpkg.com/moment@2.13.0/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"
+        integrity="sha256-5YmaxAwMjIpMrVlK84Y/+NjCpKnFYa8bWWBbUHSBGfU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.datetimepicker4').datetimepicker({
+            icons: {
+                up: "fas fa-chevron-circle-up",
+                down: "fas fa-chevron-circle-down",
+                next: 'fas fa-chevron-circle-right',
+                previous: 'fas fa-chevron-circle-left',
+                time: 'far fa-clock'
+            }
+        });
+
+    });
+
+    function openFilter() {
+        $("#showFilter").toggle();
+    }
+    $('.tree').treegrid();
+    $('.tree-add-root').click(function (e) {
+        e.preventDefault();
+        var suppliername = $("#SupplierNum").val();
+        var qty = $("#Qty").val();
+        var rowId = new Date().getTime()
+        $('.tree').treegrid('add', ['<tr class="treegrid-' + rowId + '"  id="' + rowId + '"><td>' + suppliername + '</td><td>' + qty + '</td><td>-</td><td>-</td><td>-</td><td onclick=showModal("' + rowId + '");> Add Sub Docs</td></tr>']);
+
+        $("#parentID").trigger("reset");
+    });
+
+    $('.tree-add-node').click(function (e) {
+        e.preventDefault();
+        var name = $("#name").val();
+        var email = $("#email").val();
+        $(this).closest('tr').treegrid('add', ['<tr><td>' + name + '</td><td>' + email + '</td></tr>']);
+    });
+    function subrow(id) {
+        var somename = id;
+
+        var invoiceid = $("#invoiceid").val();
+        var docdetails = $("#docdetails").val();
+        var refnum = $("#refnum").val();
+        var noofcopies = $("#noofcopies").val();
+        var rowId = $("#hidRowId").val();
+
+        $("#" + rowId).closest('tr').treegrid('add', ['<tr><td>' + invoiceid + '</td><td>-</td><td>' + docdetails + '</td><td>' + refnum + '</td><td>' + noofcopies + '</td><td>-</td></tr>']);
+        $("#subDocModal").modal('hide');
+
+        $("#modalID").trigger("reset");
+    };
+    function toogleCard() {
+        $("#showNew").toggle();
+    }
+    function showModal(rowId) {
+        console.log(rowId);
+        $("#hidRowId").val(rowId);
+        $("#subDocModal").modal('show');
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //GetCourierAndSubDetails();
+        InitializeKendoGrid();
+        $("#masterSaveButton").click(function () {
+            //debugger;
+            var masterID = $("input[type=hidden][id=masterIdKey]").val();
+            var companyID = $("input[type=hidden][id=masterIdKeyGuid]").val();
+            var awbNumber = $('input[type=text][id=awbNumber]').val();
+            var courierCompany  = $( "#courierCompany option:selected" ).val();
+            var receivedFrom  = $( "#receivedFrom option:selected" ).val();
+            var receivedDataTime = $('input[type=text][id=receivedDataTime]').val();
+            var inputState  = $( "#inputState option:selected" ).val();
+            var type  = $( "#type option:selected" ).val();
+            var handoveredOnDateTime = $('input[type=text][id=handoveredOnDateTime]').val();
+            var courierMaster = {
+                MasterID: masterID,
+                CompanyID: companyID,
+                AWBNo: awbNumber,
+                CourierCompany: courierCompany,
+                ReceivedFrom: receivedFrom,
+                CourierFor: inputState,
+                DocumentType: type,
+                ReceivedOn: receivedDataTime,
+                HandedOverOn: handoveredOnDateTime
+            };
+            $.ajax({
+                url: "/Home/AddNewCourierMaster",
+                type: 'POST',
+                data: JSON.stringify({courierMaster: courierMaster}),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    //debugger;
+                    //alert(data.AWBNo);
+                    alert("Incoming Courier Master Details Saved.");
+                    $("input[type=hidden][id=masterIdKey]").val(data.MasterID);
+                    $("input[type=hidden][id=masterIdKeyGuid]").val(data.CompanyID);
+                }
+            });
+        });
+    });
+    var data2 = [];
+    function GetCourierAndSubDetails() {
+        //debugger;
+       
+    }
+
+    function InitializeKendoGrid() {
+        //index = data2.length + 1;
+        function nonEditor(container, options) {
+            container.text(options.model[options.field]);
+            container.removeClass("k-edit-cell");
+        }
+
+        $("#grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: function (o) {
+                        console.log("master read");
+                         $.ajax({
+                            url: "/Home/GetJsonIncomingCourierandDetails",
+                            type: 'POST',
+                            data: JSON.stringify({ masterID: @Request.QueryString["masterid"] }),
+                            dataType: "json",
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                // set data
+                                $('input[type=text][id=awbNumber]').val(data.AWBNo);
+                                $( "#courierCompany" ).val(data.CourierCompany);
+                                $( "#receivedFrom" ).val(data.ReceivedFrom);
+                                $('#receivedDataTime').val(moment.utc(data.ReceivedOn).format('MM/DD/YYYY h:mm a'));
+                                $( "#inputState" ).val(data.CourierFor);
+                                $( "#type" ).val(data.DocumentType);
+                                $('#handoveredOnDateTime').val(moment.utc(data.HandedOverOn).format('MM/DD/YYYY h:mm a'));
+                                //debugger;
+                                data2 = [];
+                                var obj = data.CourierDetails;
+                                for (var i = 0; i < obj.length; i++) {
+                                    obj[i].id = "SINo_" + obj[i].DetailsID;
+                                    data2.push(obj[i]);
+                                }
+                                $("input[type=hidden][id=masterIdKey]").val(data.MasterID);
+                                $("input[type=hidden][id=masterIdKeyGuid]").val(data.CompanyID);
+                                o.success(data2);
+                            }
+                        });
+                        
+                    },
+                    update: function (o) {
+                        console.log("master update");
+                        o.success();
+                    },
+                    destroy: function (o) {
+                        console.log("master destroy");
+                        o.success();
+                    },
+                    create: function (o) {
+                        console.log("master create");
+                        var record = o.data;
+                        //debugger;
+                        //record.id = index;
+                        //index++;
+
+                        o.success(record);
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "id",
+                        fields: {
+                            DetailsID: { type: "number", editable: false },
+                            SINo: { type: "string" }
+                        }
+                    }
+                }
+            },
+            editable: true,
+            dataBound: function(e) {
+                console.log("dataBound");                
+                var items = e.sender.items();
+                items.each(function (index) {
+                    var dataItem = grid.dataItem(this);
+                        this.className += " document-detail-row";
+                });
+            },
+            toolbar: [{ name: "create", text: " " }],
+            columns: [
+                { field: "SINo", title: "Supplier Invoice " },
+                { field: "id", title: "Id ", editor: nonEditor },
+
+                {
+                    command: [
+                        {
+                            name: "edit", text: " ",
+                            click: function(e) {
+                                // prevent page scroll position change
+                                //debugger;
+                                var masterRow = this.dataItem($(e.target).closest("tr.k-master-row"));
+                                var detailGrid = $(e.target).closest("tr.k-master-row").next("tr").find('.k-grid').data('kendoGrid');
+                                var masterIdKey = $("input[type=hidden][id=masterIdKey]").val();
+                                var masterIdKeyGuid = $("input[type=hidden][id=masterIdKeyGuid]").val();
+                                var detailRows = [{
+                                    DetailsID: masterRow.DetailsID,
+                                    MasterID: masterIdKey, //from  hidden field,
+                                    IsSubDetail: false,
+                                    SINo: masterRow.SINo
+                                }];
+                                $.each(detailGrid.dataSource.data(), function (key, detailObject) {
+                                    var detailRow = {
+                                        DetailsID: detailObject.id,
+                                        MasterID: masterIdKey, //from  hidden field,
+                                        IsSubDetail: true,
+                                        DocDetail: detailObject.DocumentDetails,
+                                        RefNo: detailObject.ReferenceNumber,
+                                        Qty: detailObject.Qty,
+                                        Remarks: detailObject.Remarks
+                                    };
+                                    detailRows.push(detailRow);
+                                });
+                                //debugger;
+                                $.ajax({
+                                    url: "/Home/AddNewDocument",
+                                    type: 'POST',
+                                    data: JSON.stringify({
+                                        master: {
+                                            CompanyID: masterIdKeyGuid,
+                                            MasterID: masterIdKey //from  hidden field,
+                                        },
+                                        detailRows: detailRows
+                                    }),
+                                    dataType: "json",
+                                    contentType: 'application/json; charset=utf-8',
+                                    success: function (data) {
+                                        //debugger;
+                                        var gview = $("#grid").data("kendoGrid");
+                                        gview.dataSource.read();
+                                        //debugger;
+                                        gview.dataSource.read().then(function() {
+                                            gview.refresh();
+                                        });
+                                        var masterGrid = $("#grid").data("kendoGrid");
+                                        var detailRows = masterGrid.element.find(".k-detail-row");
+                                        for(var i = 0; i < detailRows.length; i++){
+                                            var detailGrid = $(detailRows[i]).find(".k-grid").data("kendoGrid");
+                                            detailGrid.dataSource.read();
+                                            detailGrid.dataSource.read().then(function() {
+                                                detailGrid.refresh();
+                                            });
+                                        }
+                                        var masterIdKey = $("input[type=hidden][id=masterIdKey]").val();
+                                        document.location = "/home/AddNewDocument?masterid="+masterIdKey;
+                                    }
+                                });
+                            }
+                        },
+                        { name: "destroy", text: " " }
+                    ]
+                }
+            ],
+            detailInit: detailInit,
+            dataBound: function () {
+                this.expandRow(this.tbody.find("tr.k-master-row").first());
+            },
+        });
+    }
+
+    function DetailCreate(parentId, row) {
+        //debugger;
+    }
+
+    function DetailDelete(parentId, row) {
+        //debugger;
+    }
+    
+    function detailInit(e) {
+        //debugger;
+        var detailRow = e.detailRow;
+
+        $("<div/>").appendTo(e.detailCell).kendoGrid({
+            dataSource: {
+                transport: {
+                    read: function (o) {
+                        console.log("child read");
+                        var parentId = detailRow.find("tr.k-master-row").prevObject[0].previousSibling.innerText.trim();
+                        $.ajax({
+                            url: "/Home/GetCourierDetailsRecord?parentDetailID=" + parentId,
+                            type: 'Get',
+                            dataType: "json",
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                //debugger;
+                                var result = [];
+                                for (var x = 0; x < data.length; x++) {
+                                    var datum = data[x];
+                                    var temp = {};
+                                    temp.id = datum.DetailsID;
+                                    temp.DocumentDetails = datum.DocDetail;
+                                    temp.ReferenceNumber = datum.RefNo;
+                                    temp.Qty = datum.Qty;
+                                    temp.Remarks = datum.Remarks;
+                                    result.push(temp);
+                                }
+                                o.success(result);
+                            }
+                        });
+                    },
+                    update: function (o) {
+                        console.log("child update");
+
+                        //Do the update here
+                        //
+                        var recordId = o.data.id;
+                        console.log(recordId);
+
+                        o.success();
+                    },
+                    destroy: function (o) {
+                        console.log("child destroy");
+                        var parentId = detailRow.find("tr.k-master-row").prevObject[0].previousSibling.innerText.trim();
+                        DetailDelete(parentId, o);
+                        o.success();
+                    },
+                    create: function (o) {
+                        var parentId = detailRow.find("tr.k-master-row").prevObject[0].previousSibling.innerText.trim();
+                        console.log("child create");
+                        var record = o.data;
+                        record.id = index;
+                        index++;
+
+                        o.success(record);
+
+                        //Make AJAX request to insert the record into DB
+                        DetailCreate(parentId, o);
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "id",
+                        fields: {
+                            id: { type: "number", editable: false, visible: true },
+                            DocumentDetails: { type: "string" },
+                            ReferenceNumber: { type: "string" },
+                            Qty: { type: "number" },
+                            Remarks: { type: "string" }
+                        }
+                    }
+                }
+            },
+            editable: {
+                "confirmation": "Are you sure you want to delete this item?",
+                "mode": "incell",
+                "createAt": "bottom"
+            },
+            edit: function (e) {
+                var colDocumentDetails = $(e.container).find("input[name=DocumentDetails]");
+                if (colDocumentDetails.length > 0) {
+                    if ($.inArray(colDocumentDetails.val(),
+                                ['B/L-Bill of Leading',
+                                'C/0-Country of origin',
+                                'v/C-Vessel Certficate',
+                                'P/L-Packing List',
+                                'Verning List',
+                                'Serail Number List'
+                            ]) !== -1) {
+                        this.closeCell(); // prevent editing
+                    }
+                }
+            },
+            toolbar: [{ name: "create", text: " " }],
+            columns: [
+                { field: "id", title: "Id", hidden: true },
+                { field: "DocumentDetails", title: "Document Details" },
+                { field: "ReferenceNumber", title: "Reference Number" },
+                { field: "Qty", title: "Qty" },
+                { field: "Remarks", title: "Remarks" },
+                {
+                    command: [
+                        { name: "destroy", text: " " }
+                    ]
+                }
+            ]
+        });
+    }
+
+    $(".type").on("change", function () {
+        $modal = $('#myModal');
+        if ($(this).val() === 'donations') {
+            $modal.modal('show');
+        }
+    });
+</script>

@@ -1404,6 +1404,9 @@
       "Trading.DAO/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "Trading.ViewModel": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/Trading.DAO.dll": {}
         },
@@ -1422,6 +1425,15 @@
         },
         "runtime": {
           "bin/placeholder/Trading.Utilities.dll": {}
+        }
+      },
+      "Trading.ViewModel/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/Trading.ViewModel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Trading.ViewModel.dll": {}
         }
       }
     }
@@ -5226,6 +5238,11 @@
       "type": "project",
       "path": "../Trading.Utilities/Trading.Utilities.csproj",
       "msbuildProject": "../Trading.Utilities/Trading.Utilities.csproj"
+    },
+    "Trading.ViewModel/1.0.0": {
+      "type": "project",
+      "path": "../Solutions/Trading.ViewModel/Trading.ViewModel.csproj",
+      "msbuildProject": "../Solutions/Trading.ViewModel/Trading.ViewModel.csproj"
     }
   },
   "projectFileDependencyGroups": {

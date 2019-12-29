@@ -1,0 +1,630 @@
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.js" type="text/javascript"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.fa.js" type="text/javascript"></script>
+
+
+<style>
+
+    .card-body {
+        padding: 0.0rem;
+    }
+
+    .card.card-cascade .card-body {
+        padding-top: 0rem;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 1px solid #4F637E;
+    }
+
+    .carlstahl-global main {
+        margin-top: -35px;
+    }
+
+    td.fth-footer, th.fth-footer {
+        background-color: #fff;
+        color: black;
+    }
+</style>
+
+<style>
+
+    .tableview {
+        font-size: 0.875em;
+        display: inline-block;
+        position: relative;
+        padding-top: 3.4285714em;
+        border: 1px solid #e9e9e9;
+        color: #364c5d;
+        text-overflow: ellipsis !important;
+    }
+
+        .tableview:before,
+        .tableview-has-footer:after {
+            content: "";
+            position: absolute;
+            display: block;
+            left: 0;
+            right: 0;
+        }
+
+        .tableview:before {
+            top: 0;
+        }
+
+    .tableview-has-footer:after {
+        bottom: 0;
+    }
+
+    .tableview > .tableview-holder {
+        display: block;
+        position: static;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+        .tableview > .tableview-holder > table {
+            width: 100%;
+            position: static;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+            .tableview > .tableview-holder > table > thead > tr > [caption],
+            .tableview > .tableview-holder > table > thead > tr > [caption]:after {
+                white-space: nowrap;
+                position: static;
+                height: 0;
+                line-height: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+                .tableview > .tableview-holder > table > thead > tr > [caption]:after {
+                    content: attr(caption);
+                    color: transparent;
+                    display: inline-block;
+                }
+
+                .tableview > .tableview-holder > table > thead > tr > [caption]:before {
+                    content: attr(caption);
+                    position: absolute;
+                }
+
+    .tableview-has-footer:after {
+        content: "";
+        position: absolute;
+        display: block;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .tableview-has-footer > .tableview-holder > table > tfoot > tr > * > .fixed {
+        position: absolute;
+        bottom: 0;
+        z-index: 1000;
+    }
+
+    .tableview:before {
+        height: 3.4285714em;
+    }
+
+    .tableview > .tableview-holder {
+        max-height: 30.2857em;
+    }
+
+        .tableview > .tableview-holder > table > thead > tr > [caption]:before {
+            line-height: 3.4285714em;
+            margin-top: -3.4285714em;
+        }
+
+    .tableview-has-footer {
+        padding-bottom: 2em;
+        color: black;
+    }
+
+        .tableview-has-footer:after {
+            height: 2em;
+            color: black;
+        }
+
+        .tableview-has-footer > .tableview-holder > table > tfoot > tr > * > .fixed {
+            height: 2em;
+            line-height: 2em;
+            color: black;
+        }
+
+    .tableview:before {
+        background: #9eafc6;
+        border-bottom: 1px solid #e9e9e9;
+    }
+
+    .tableview-holder > table > * > tr > * {
+        padding: 0 0.35715em;
+    }
+
+        .tableview-holder > table > * > tr > *:first-child {
+            padding-left: 2.142857em;
+        }
+
+        .tableview-holder > table > * > tr > *:last-child {
+            padding-right: 2.142857em;
+        }
+
+    .tableview-holder > table > thead > tr > [caption] {
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .tableview-holder > table > tbody > tr:not(:first-child) {
+        border-top: 1px solid #e9e9e9;
+    }
+
+    .tableview-holder > table > tbody > tr:hover {
+        background: #f5f5f5;
+        transition: background 0.2s;
+    }
+
+    .tableview-holder > table > tbody > tr > * {
+        padding-top: 0.71428em;
+        padding-bottom: 0.71428em;
+        transition: opacity 0.2s;
+    }
+
+    .tableview-has-footer:after {
+        background: #9eafc6;
+    }
+
+    .tableview-has-footer tfoot {
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #9eafc6;
+    }
+
+    .table-header-fixed thead th {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+       
+    }
+
+    .table-header-fixed tfoot th {
+        position: -webkit-sticky;
+        position: sticky;
+        bottom: 0;
+        z-index: 1;
+        
+    }
+
+    /*.table thead th:hover {
+        background: #036266 !important;
+    }*/
+    
+    </style>
+
+<script>
+    function showSearchPanel() {
+        //document.getElementById("searchPanel").style.display = "block";
+        $("#searchPanel").toggle();
+    }
+
+</script>
+
+<section>
+
+    <!--Top Table UI-->
+    <div class="card  card-border  p-2 mb-5" id="searchPanel" style="display:none">
+
+        <!--Grid row-->
+        <br />
+        <div class="row mt-0">
+
+            <div class="col-lg-2 col-md-12">
+                <div class="md-form mt-0">
+                    <input type="text" id="searchEmpCode">
+                    <label for="searchEmpCode">Employee Code</label>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <div class="md-form mt-0">
+                    <input type="text" id="searchEmpName">
+                    <label for="searchEmpName">Employee Name</label>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-12">
+                <div class="md-form mt-0">
+                    @Html.DropDownList("ddlDepartment", null, "--Select Department --", htmlAttributes: new { id = "searchDepartmentId", @class = "mdb-select" })
+                    <label style="" for="searchDepartmentId">Department</label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="md-form mt-0">
+                    @Html.DropDownList("ddlManager", null, "--Select Manager --", htmlAttributes: new { id = "searchManagerId", @class = "mdb-select" })
+                    <label for="searchManagerId">Reporting Manager</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-2">
+                <div class="md-form">
+                    @*<input type="text" id="searchLeaveTypeId" class="form-control ">*@
+                    @Html.DropDownList("ddlVisaCompany", null, "--Select Visa Company --", htmlAttributes: new { id = "searchVisaCompany", @class = "mdb-select" })
+                    <label for="searchVisaCompany">Company</label>
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="md-form ">
+                    <input type="text" id="searchDocNO">
+                    <label for="searchDocNO">Labour Card/Visa/PP No:</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="md-form">
+
+                    <input type="checkbox" checked class="filled-in" name="chkIsActive" id="chkIsActive">
+                    <label class="form-check-label" for="chkIsActive">Is Active?</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="md-form">
+
+                    <button class="btn btn-sm ml-2 px-2 waves-effect waves-light" style="background-color:#FF8800" id="btnSearch">
+                        <i class="fa fa-search"></i> Search
+
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    <!--Top Table UI-->
+    <!--Card-->
+
+    <div class="card card-cascade narrower index-body-height">
+
+        <!--Card header-->
+        <div class="view py-3 gradient-card-header  mx-3 d-flex justify-content-between align-items-center" style="background-color:#4F637E;height: 42px;">
+
+
+            <div style="visibility:hidden">
+                <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2 waves-effect waves-light">
+                    <i class="fa fa-columns ml-9"></i>
+
+                </button>
+
+            </div>
+
+
+            <div class="white-text  ml-4">
+                EMPLOYEE LIST
+            </div>
+
+            <div>
+                <a href="~/HRMS/EmployeeDetails/Create">
+                    <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2 waves-effect waves-light">
+                        <i class="fa fa-plus-circle mt-0"></i>
+                    </button>
+                </a>
+                <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2 waves-effect waves-light" onclick="showSearchPanel();">
+                    <i class="fa fa-search mt-0"></i>
+                </button>
+
+                <button title="Download Results" type="button" class="btn btn-outline-white btn-rounded btn-sm px-2 waves-effect waves-light" onclick="ExportData();">
+                    <i class="fa fa-download mt-0"></i>
+
+                </button>
+                @*<button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2 waves-effect waves-light">
+                    <i class="fa fa-pencil mt-0"></i>
+                </button>
+                <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2 waves-effect waves-light" data-toggle="modal">
+                    <i class="fa fa-remove mt-0"></i>
+                </button>*@
+                @*<button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2 waves-effect waves-light">
+                    <i class="fa fa-info-circle mt-0"></i>
+                </button>*@
+            </div>
+
+        </div>
+        <!--/Card header-->
+        <div class="card-body">
+
+            <div class="table-responsive" style="height:calc(100vh - 160px);overflow:auto;">
+                <table class="table table-striped table-bordered table-header-fixed" style="text-align: center;overflow-y:auto;">
+                    <thead>
+                        <tr>
+                            <th caption="Employee Code">Employee Code</th>
+                            <th caption="EmployeeName">Employee Name </th>
+                            <th caption="Designation">Designation </th>
+                            <th caption="Department"> Department</th>
+                            <th caption="Reporting Manager" @*sytle="padding:1px!important"*@>Reporting Manager </th>
+                            <th caption="Contact Number"> Contact Number</th>
+                            <th caption="Passport Exp.Date"> Passport Exp.Date</th>
+                            <th caption="Visa Exp.Date">Visa Exp.Date </th>
+                            <th caption="LC Exp.Date">LC Exp.Date </th>
+                            <th caption="Status">Status </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblEmployeeDetails" style=""></tbody>
+                    
+                </table>
+            </div>
+        </div>
+        <div style="background:#fff;color:#9eafc6;text-align:center">
+        <b>Total Employee :</b> <b><span style="background:#fff;color:#9eafc6;text-align:right" id="totalEmployees"></span></b>
+    </div>
+        </div>
+
+        <!--Card content-->
+       <!-- <div class="card-body" style="height:100px!important;overflow-y:hidden">
+
+            <div class="@*tableview tableview-has-footer*@">
+                <div class="tableview-holder">
+                    <table id="abe" class="table table-bordered table-hover table-sm table-striped bootgrid-table " style="height:180px!important;overflow-y:scroll">
+                        <thead>
+                            <tr>
+
+                                <th caption="Employee Code"></th>
+                                <th caption="EmployeeName"> </th>
+                                <th caption="Designation"> </th>
+                                <th caption="Department"> </th>
+                                <th caption="Reporting Manager" sytle="padding:1px!important"> </th>
+                                <th caption="Contact Number"> </th>
+                                <th caption="Passport Exp.Date"> </th>
+                                <th caption="Visa Exp.Date"> </th>
+                                <th caption="LC Exp.Date"> </th>
+                                <th caption="Status"> </th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tblEmployeeDetails"></tbody>
+                        <tfoot>
+                                <tr style="background:#fff;color:#036266">
+                                    
+                                    <th colspan="9" class="text-right"><b>Total Employess :</b></th>
+                                    <th><b><span id="totalEmployees"></span></b></th>
+                                </tr>
+                            </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <br /><br /><br />
+
+        </div> -->
+    </div>
+    <br /> <br />
+    <!--Activate DeActivate Confirmation-->
+
+    <div class="modal fade" id="modalStatusUpdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="updateEmpStatus">Update Employee Status</h6>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary  btn-sm" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="btnOK">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+@section Scripts{
+    @Scripts.Render("~/bundles/UserScript")
+    @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Content/tableexport-xls-bold-headers.js"></script>
+    <script type="text/javascript">
+        var bg;
+        $(document).ready(function () {
+            $('.datepicker').pickadate(
+                {
+                    format: 'dd/mm/yyyy',
+                    min: new Date(2010, 1, 1),
+                    max: false
+                }
+            );
+
+              var getexceptionMsg = "@ViewBag.ExceptionMessage";
+
+            if(getexceptionMsg != "") {
+                toastr.error(getexceptionMsg);
+            }
+            toastr.options = {
+                "closeButton": true,
+                "positionClass": "toast-top-full-width"
+
+            };
+            performSearch();
+
+        });
+
+        function ExportData() {
+            $('#abe').tableExport({
+                type: 'excel',
+                escape: 'false',
+                filename: 'employeeDetails.xls',
+               // ignoreColumn: [14] //ignore download column
+            });
+        }
+
+
+        function performSearch() {
+            $("#tblEmployeeDetails").empty();
+            $("#tblFooter").hide();
+            $("#showProgress").show();
+
+            $.ajax({
+                url: "/EmployeeDetails/GetEmployeeList",
+                type: 'POST',
+                data: JSON.stringify({
+                    searchEmpCode :$("#searchEmpCode").val(),
+                    searchEmpName :$("#searchEmpName").val(),
+                    searchDepartmentId : $("#searchDepartmentId").val(),
+                    searchReportingManagerId : $("#searchManagerId").val(),
+                    searchCompnay :$("#searchVisaCompany").val(),
+                    searchDocNo : $("#searchDocNO").val(),
+                    IsActive : $("#chkIsActive").prop('checked')
+                }),
+
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                error: function (data) {
+
+                    var noRecordsFound = "<tr><td colspan=10 style='text-align:center'>No results found! </td></tr>"
+                    $("#tblEmployeeDetails").append(noRecordsFound);
+                    $("#tblFooter").hide();
+                    $("#showProgress").toggle();
+                    if (data.status == 500) {
+                        toastr.options = {
+                            "closeButton": true,
+                            "positionClass": "toast-top-full-width",
+                            "timeOut": 0,
+                            "extendedTimeOut": 0,
+                            "preventDuplicates": true
+
+                        };
+                        toastr.error("There was an error while processing your request. Please try again later or contact ERP support.");
+                    } else if (data.status == 401) {
+                        toastr.error("Your session expired. Please re-login.");
+                    }
+                },
+                success: function (data) {
+                    $("#searchPanel").hide();
+                    var obj = JSON.parse(JSON.stringify(data));
+                    if (obj.length == "0") {
+                        var noRecordsFound = "<tr><td colspan=10 style='text-align:center'>No results found! </td></tr>"
+                        $("#tblEmployeeDetails").append(noRecordsFound);
+                        $("#tblFooter").hide();
+                    }
+                    else {
+                        var trs = "", tr = "";
+                        $("#tblFooter").show();
+                        for (var i = 0; i < obj.length; i++) {
+                         
+                            var PassportDate = new Date(parseInt(obj[i].PassportexpDate.substr(6)));
+                            var VisaDate = new Date(parseInt(obj[i].visaexpDate.substr(6)));
+                            var displaypassportDate = $.datepicker.formatDate("dd/mm/yy", PassportDate);
+                            var displayvisaDate = $.datepicker.formatDate("dd/mm/yy", VisaDate);
+                            if (obj[i].passportExpInDays < 30 || obj[i].visaExpriredInDays ) {
+                                var tdColor = "black";
+                            }
+                            if (obj[i].IsActive) {
+                                var icon = 'fa fa-check';
+                                var title = 'Deactive Employee';
+                                var textColor = 'green-text'
+                                var status = 'false';
+                            }
+                            else {
+                                var icon = 'fa fa-minus-circle';
+                                var title = 'Activate Employee';
+                                var textColor = 'red-text';
+                                var status = 'true';
+                            }
+                            tr = "<tr  id=tr-" + i + "><td align='center'><a style='color: #0768FF' href=\"/HRMS/EmployeeDetails/Edit?empId=" + obj[i].EmployeeID + "\">" + obj[i].EmpCode + "</a></td>"
+                                + "<td align='center'><img onerror = 'this.src='\"/Content/Images/img_avatar.png\"' src='" + obj[i].Photo + "' id='empImage2' alt='empImage2' name='empImage2' class='rounded-circle' style='height:75px;width:75px;' /><div><span>" + obj[i].EmployeeName + "</div></span></td>"
+                                + "<td align='left' style='word-break:break-word;'>" + obj[i].Designation + "</td>"
+                                + "<td align='center'><span style='word-break:break-word;'>" + obj[i].DepartmentName + "</span></td>"
+                                + "<td align='center' style='word-break:break-word;'>" + obj[i].ManagerName + "</td>"
+                                + "<td align='center' style='word-break:break-word;'>" + obj[i].PPhoneNo + "</td>"
+                                + "<td align='center' style='color:"+obj[i].PassportColor + "!important'>" + obj[i].PassportExpDateForPrint + "</td>"
+                                + "<td align='center' style='color:" + obj[i].VisaColor + "!important'>" + obj[i].VisaExpDateForPrint + "</td>"
+                                + "<td align='center' style='color:" + obj[i].LCColor + "!important'>" + obj[i].LCExpDateForPrint + "</td>"
+                                + "<td align='center' '><a class='" + textColor + "' tdupdateEmpStatus' onclick='getDetails(this);' style='text-align:center' name =" + obj[i].EmployeeID + "~" + status+"~" + obj[i].EmpCode + " id=" + obj[i].EmployeeID + "~true~" + obj[i].EmpCode + " title='" + title + "'><i class='" + icon+"'></i></a></td>"
+                               +"</tr>"
+                            trs = trs + tr;
+                        }
+                        $("#tblEmployeeDetails").append(trs);
+                        $("#totalEmployees").empty();
+                        $("#totalEmployees").append(obj.length);
+
+                        //$('#tableContainer').fixTableHeader({ fixHeader: true, fixFooter: true });
+
+                    }
+                    $("#showProgress").toggle();
+                }
+            });
+        }
+        $("#btnSearch").click(function () {
+          //  $("#grid-data").bootgrid("reload");
+            performSearch();
+        });
+
+        function getDetails(Id) {
+            var getId = Id.name;
+            var Message = "";
+            //var name = $(this).attr('name');
+            var name = Id.name;
+            var arr = name.split('~');
+            var EmpId = arr[0];
+            var status = arr[1];
+            var code = arr[2];
+            temValues = name;
+            $("#modalStatusUpdate").modal('show');
+            if (status == 'true')
+                $("#updateEmpStatus").text("Are You Sure to  Activate " + code);
+            else {
+                $("#updateEmpStatus").text("Are You Sure to  De-Activate " + code);
+            }
+        }
+        $("#btnOK").click(function () {
+            var name = temValues;
+            var Message = "";
+            //var name = $(this).attr('name');
+            var arr = name.split('~');
+            var EmpId = arr[0];
+            var status = arr[1];
+            var code = arr[2];
+            if (status=='true')
+                $("#updateEmpStatus").text("Are You Sure to  Activate " + code);
+            else {
+                $("#updateEmpStatus").text("Are You Sure to  DeActivate " + code);
+            }
+            $.ajax({
+
+                url: "/EmployeeDetails/UpdateEmployeeStatus",
+                type: 'POST',
+                data: JSON.stringify({ EmpId: EmpId, status: status }),
+                dataType: "json",
+                contentType: 'application/json;charset=utf-8',
+                success: function (data) {
+                    var obj = JSON.parse(JSON.stringify(data));
+
+                    var message = "Employee  " + obj.employeeDetail + "  Status Updated Successfully";
+
+                    // toastr["success"]("Leave Cancelled Successfully")
+                   // $("#grid-data").bootgrid("reload");
+                    performSearch();
+                    toastr.success(message);
+
+                }
+            });
+            $("#modalStatusUpdate").modal('hide');
+
+        });
+
+    </script>
+
+}
+
+

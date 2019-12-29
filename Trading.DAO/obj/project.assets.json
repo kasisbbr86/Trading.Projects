@@ -25,6 +25,15 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
+      },
+      "Trading.ViewModel/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/Trading.ViewModel.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Trading.ViewModel.dll": {}
+        }
       }
     }
   },
@@ -172,11 +181,17 @@
         "netstandard.library.2.0.3.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
+    },
+    "Trading.ViewModel/1.0.0": {
+      "type": "project",
+      "path": "../Solutions/Trading.ViewModel/Trading.ViewModel.csproj",
+      "msbuildProject": "../Solutions/Trading.ViewModel/Trading.ViewModel.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "NETStandard.Library >= 2.0.3"
+      "NETStandard.Library >= 2.0.3",
+      "Trading.ViewModel >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -204,7 +219,11 @@
       },
       "frameworks": {
         "netstandard2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\GitHub\\Trading.Projects\\Solutions\\Trading.ViewModel\\Trading.ViewModel.csproj": {
+              "projectPath": "D:\\GitHub\\Trading.Projects\\Solutions\\Trading.ViewModel\\Trading.ViewModel.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
